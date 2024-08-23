@@ -6,7 +6,7 @@
         <Wrapper>
             <ItemTemplate>
                 <div class="modal-header">
-                    <h1>Edit Note</h1>
+                    <h1>@TitleModal</h1>
                     <button @onclick="Close" class="close-button">×</button>
                 </div>
                 @ItemTemplate
@@ -35,9 +35,19 @@
         align-items: center;
     }
 
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
 </style>
 
 @code {
+
+    [Parameter]
+    public string TitleModal { get; set; }
+
     [EditorRequired]
     [Parameter]
     public RenderFragment ItemTemplate { get; set; } = default!;
@@ -46,11 +56,11 @@
     public bool IsVisible { get; set; }
 
     [Parameter]
-    public EventCallback<bool> IsVisibleChanged { get; set; }
+    public EventCallback IsVisibleChanged { get; set; }
 
     private async Task Close()
     {
         IsVisible = false;
-        await IsVisibleChanged.InvokeAsync(IsVisible);
+        await IsVisibleChanged.InvokeAsync();
     }
 }
