@@ -8,7 +8,7 @@
         <h4>@Title</h4>
         <small>@Author</small>
         <p>
-            @Description
+            @TruncatedDescription
         </p>
     </div>
 </div>
@@ -61,4 +61,11 @@
     [Parameter]
     public string BackgroundColor { get; set; } = "#eee";
 
+    [Parameter]
+    public int MaxDescriptionLength { get; set; } = 100; // Longueur maximale par défaut
+
+    private string TruncatedDescription =>
+        Description.Length > MaxDescriptionLength
+        ? Description.Substring(0, MaxDescriptionLength) + "..."
+        : Description;
 }

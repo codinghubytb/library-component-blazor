@@ -1,6 +1,6 @@
 ﻿<form class="searchBarForm">
     <div class="searchBar">
-        <span class="searchBar__icon"><i class='bx bx-search-alt-2'></i></span>
+        <span class="searchBar__icon"><img class='bx bx-search-alt-2' src="@PathImg" width="24" height="24" /></span>
         <input class="searchBar__input" @bind="searchValue" @oninput="HandleInput" type="text" placeholder="Search here" />
     </div>
 </form>
@@ -85,6 +85,9 @@
     [Parameter]
     public EventCallback<string> OnSearch { get; set; }
 
+
+    [Parameter]
+    public string PathImg { get; set; }
 
     private string? searchValue;
 

@@ -1,0 +1,56 @@
+﻿@inherits LayoutComponentBase
+
+@if (IsVisible)
+{
+    <div class="modal-overlay">
+        <Wrapper>
+            <ItemTemplate>
+                <div class="modal-header">
+                    <h1>Edit Note</h1>
+                    <button @onclick="Close" class="close-button">×</button>
+                </div>
+                @ItemTemplate
+            </ItemTemplate>
+        </Wrapper>
+    </div>
+}
+
+<style>
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+</style>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment ItemTemplate { get; set; } = default!;
+
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsVisibleChanged { get; set; }
+
+    private async Task Close()
+    {
+        IsVisible = false;
+        await IsVisibleChanged.InvokeAsync(IsVisible);
+    }
+}
