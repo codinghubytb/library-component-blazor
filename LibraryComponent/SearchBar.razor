@@ -1,0 +1,103 @@
+﻿<form class="searchBarForm">
+    <div class="searchBar">
+        <span class="searchBar__icon"><i class='bx bx-search-alt-2'></i></span>
+        <input class="searchBar__input" @bind="searchValue" @oninput="HandleInput" type="text" placeholder="Search here" />
+    </div>
+</form>
+
+<style>
+    .searchBarForm {
+    height: auto;
+    padding: 8px 8px;
+    width: 100%;
+}
+
+.searchBar {
+    position: relative;
+}
+
+.searchBar__icon {
+    color: @TextColor;
+    font-size: 24px;
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translateY(-50%);
+}
+
+.searchBar__input {
+    appearance: none;
+    outline: 0 none;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: @BackgroundColor;
+    border: 1px solid @BorderColor;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 36px;
+    padding: 6px 6px 6px 36px;
+    display: block;
+    width: 100%;
+}
+
+.searchBar__input,
+.searchBar__input::placeholder {
+    color: @TextColor;
+}
+
+.searchBar__input:hover {
+    border-color: @BorderColorHover;
+}
+
+.searchBar__input:active,
+.searchBar__input:focus {
+    border-color: @BorderColor;
+}
+
+.searchBar__icon{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+</style>
+
+<style>
+    @MediaWidthStyle
+</style>
+
+@code {
+    [Parameter]
+    public string BorderColor { get; set; } = "#695CFE";
+
+    [Parameter]
+    public string BorderColorHover { get; set; } = "#695CFE";
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "#FFF";
+
+    [Parameter]
+    public string TextColor { get; set; } = "#707070";
+
+    [Parameter]
+    public string PlaceholderColor { get; set; } = "#d5d5d5";
+
+    [Parameter]
+    public EventCallback<string> OnSearch { get; set; }
+
+
+    private string? searchValue;
+
+    public string MediaWidthStyle = @"
+@media screen and (min-width: 992px) {
+    .searchBarForm {
+        padding: 24px 24px;
+    }
+}";
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        searchValue = e.Value?.ToString();
+        await OnSearch.InvokeAsync(searchValue);
+    }
+}

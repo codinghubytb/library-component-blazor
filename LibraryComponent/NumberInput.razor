@@ -1,0 +1,67 @@
+﻿<div class="ch-text-input">
+    <input type="number" class="ch-input" maxlength="9" placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged" disabled=@Disabled></input>
+</div>
+
+<style>
+
+    .ch-text-input {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        display: flex;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .ch-text-input .ch-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            color: @TextColor;
+            background: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+            .ch-text-input .ch-input::placeholder {
+                color: #b7b6b6;
+            }
+
+            .ch-text-input .ch-input::-webkit-scrollbar {
+                color: @TextColor;
+                width: 4px;
+            }
+
+            .ch-text-input .ch-input::-webkit-scrollbar-track {
+                background: #fff;
+            }
+
+            .ch-text-input .ch-input::-webkit-scrollbar-thumb {
+                background: #ddd;
+                border-radius: 8px;
+            }
+
+</style>
+
+@code {
+    [Parameter]
+    public int Value { get; set; } = default!;
+
+    [Parameter]
+    public string Placeholder { get; set; } = default!;
+
+    [Parameter]
+    public string TextColor { get; set; } = "#000";
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ValueChanged { get; set; }
+
+    private void OnValueChanged(ChangeEventArgs e)
+    {
+        Value = int.Parse(string.IsNullOrEmpty(e.Value.ToString()) ? "0" : (e.Value.ToString()));
+        ValueChanged.InvokeAsync(Value);
+    }
+}

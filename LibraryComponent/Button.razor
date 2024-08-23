@@ -1,0 +1,48 @@
+﻿<button class="ch-btn @(Active ? "active":"")" style="width:@Width%;" @onclick=OnClicked>@Text</button>
+
+<style>
+    .ch-btn {
+        padding: 14px;
+        outline: none;
+        border: none;
+        color: @TextColor;
+        cursor: pointer;
+        font-size: 17px;
+        text-align: center;
+        border-radius: 5px;
+        background: @BackgroundColor;
+    }
+
+        .ch-btn.active,
+        .ch-btn.stopActive {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+</style>
+
+@code{
+    [EditorRequired]
+    [Parameter]
+    public string Text { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback ClickEvent{ get; set; }
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "#fff";
+
+    [Parameter]
+    public string TextColor { get; set; } = "#000";
+
+    [Parameter]
+    public bool Active { get; set; }
+
+    [Parameter]
+    public int Width { get; set; } = 100;
+
+    void OnClicked()
+    {
+        ClickEvent.InvokeAsync();    
+    }
+}

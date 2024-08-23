@@ -1,0 +1,95 @@
+﻿<div id="error-page">
+    <div class="content">
+        <h2 class="header" data-text=@CodeError>
+            @CodeError
+        </h2>
+        <h4 data-text=@TitleError>
+            @TitleError
+        </h4>
+        <p>
+            @DescriptionError
+        </p>
+        <div class="btns">
+            <a href=@PathReturn>return home</a>
+            <a href=@PathReportProblem>report problem</a>
+        </div>
+    </div>
+</div>
+
+<style>
+
+#error-page{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: @BackgroundColor;
+}
+#error-page .content{
+  max-width: 600px;
+  text-align: center;
+}
+.content h2.header{
+  font-size: 18vw;
+  line-height: 1em;
+  position: relative;
+}
+.content h4{
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: #000;
+  font-size: 2em;
+  max-width: 600px;
+  position: relative;
+}
+.content p{
+  font-size: 1.2em;
+  color: #0d0d0d;
+}
+.content .btns{
+  margin: 25px 0;
+  display: inline-flex;
+}
+.content .btns a{
+  display: inline-block;
+  margin: 0 10px;
+  text-decoration: none;
+  border: 2px solid #000;
+  color: #000;
+  font-weight: 500;
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+.content .btns a:hover{
+  background: #000;
+  color: #fff;
+}
+</style>
+
+
+@code{
+    
+    [Parameter]
+    public string CodeError { get; set; } = "404";
+    
+    [Parameter]
+    public string TitleError { get; set; } =  "Opps! Page not found";
+    
+    [Parameter]
+    public string DescriptionError { get; set; } = 
+    "Sorry, the page you're looking for doesn't exist. If you think something is broken, report a problem.";
+    
+    [EditorRequired]
+    [Parameter]
+    public string PathReturn { get; set; } = default!;
+
+    [EditorRequired]
+    [Parameter]
+    public string PathReportProblem { get; set; } = default!;
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "#fff";
+
+}

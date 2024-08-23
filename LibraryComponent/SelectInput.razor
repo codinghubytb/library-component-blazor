@@ -1,0 +1,92 @@
+﻿@typeparam TItem
+
+<div class="ch-text-select" style="width:@Width%;">
+    <select class="ch-select" @bind="Value" @oninput="OnValueChanged">
+        @ChildContent
+    </select>
+</div>
+
+<style>
+    .ch-text-select {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        display: flex;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .ch-text-select .ch-select {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            color: @TextColor;
+            background: @BackgroundColor;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+            .ch-text-select .ch-select::placeholder {
+                color: #b7b6b6;
+            }
+
+            .ch-text-select .ch-select::-webkit-scrollbar {
+                color: @TextColor;
+                width: 4px;
+            }
+
+            .ch-text-select .ch-select::-webkit-scrollbar-track {
+                background: #fff;
+            }
+
+            .ch-text-select .ch-select::-webkit-scrollbar-thumb {
+                background: #ddd;
+                border-radius: 8px;
+            }
+</style>
+
+@code {
+    [Parameter]
+    public TItem Value { get; set; } = default!;
+
+    [Parameter]
+    public string TextColor { get; set; } = "#000";
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "none";
+
+    private int _width = 100;
+
+    [Parameter]
+    public int Width
+    {
+        get => _width;
+        set => _width = value >= 0 && value <= 100 ? value : 100;
+    }
+
+    [Parameter]
+    public EventCallback<TItem> ValueChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private void OnValueChanged(ChangeEventArgs e)
+    {
+        try
+        {
+            if (typeof(TItem).IsEnum)
+            {
+                Value = (TItem)Enum.Parse(typeof(TItem), e.Value.ToString());
+            }
+            else
+            {
+                Value = (TItem)Convert.ChangeType(e.Value, typeof(TItem));
+            }
+            ValueChanged.InvokeAsync(Value);
+        }
+        catch
+        {
+            
+        }
+    }
+}

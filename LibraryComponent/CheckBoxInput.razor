@@ -1,0 +1,42 @@
+﻿
+<div class="checkbox-input">
+    <input class="ch-checkbox-input" type="checkbox" id="@Id" @bind="Value" @oninput="OnValueChanged" />
+    <label class="ch-checkbox-label" for="@Id">@Label</label>
+</div>
+
+<style>
+
+    .ch-checkbox-input {
+        height: 16px;
+        width: 16px;
+        cursor: pointer;
+    }
+
+    .ch-checkbox-label {
+        cursor: pointer;
+        color: @TextColor;
+        padding-left: 0.63rem;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Value { get; set; } = default!;
+
+    [Parameter]
+    public string TextColor { get; set; } = "#000";
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    private void OnValueChanged(ChangeEventArgs e)
+    {
+        ValueChanged.InvokeAsync(!Value);
+    }
+}

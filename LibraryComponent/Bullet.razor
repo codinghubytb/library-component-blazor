@@ -1,0 +1,32 @@
+﻿<li class="ch-bullet">
+    @ItemTemplate
+</li>
+
+<style>
+
+    .ch-bullet {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        width: calc(100% / 2);
+    }
+
+    @Media
+</style>
+
+@code {
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment? ItemTemplate { get; set; } = default!;
+
+    string Media = @"
+@media only screen and (max-width : 667px) {
+.ch-bullet {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+}";
+}

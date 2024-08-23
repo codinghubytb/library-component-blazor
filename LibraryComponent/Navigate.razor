@@ -1,0 +1,28 @@
+﻿<div class="ch-navigate" @onclick=OnNavigate>
+    @ItemTemplate
+</div>
+
+<style>
+    .ch-navigate{
+        cursor:pointer;
+    }
+</style>
+
+@code {
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment ItemTemplate { get; set; } = default!;
+
+    [Parameter]
+    public string Path { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<string> NavigateEvent { get; set; }
+
+    void OnNavigate()
+    {
+        NavigateEvent.InvokeAsync(Path);
+    }
+
+}

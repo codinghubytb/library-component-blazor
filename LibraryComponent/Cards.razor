@@ -1,0 +1,64 @@
+﻿<div class="cards-inner">
+    <div>
+        <i class="@Icon"></i>
+        <img src=@Icon />
+    </div>
+
+    <div>
+        <h4>@Title</h4>
+        <small>@Author</small>
+        <p>
+            @Description
+        </p>
+    </div>
+</div>
+
+<style>
+
+    .cards-inner {
+        display: flex;
+        background-color: @BackgroundColor;
+        padding: 20px;
+        border-radius: 5px;
+        transition: box-shadow 0.4s;
+    }
+
+        .cards-inner:hover {
+            box-shadow: 0 5px 20px rgba(1, 45, 128, 0.5);
+        }
+
+        .cards-inner div img {
+            width: 64px;
+            height: 64px;
+            margin-right: 20px;
+        }
+
+        .cards-inner div p {
+            margin-top: 20px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+</style>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public string Icon { get; set; } = default!;
+
+    [EditorRequired]
+    [Parameter]
+    public string Title { get; set; } = default!;
+
+    [EditorRequired]
+    [Parameter]
+    public string Author { get; set; } = default!;
+
+    [EditorRequired]
+    [Parameter]
+    public string Description { get; set; } = default!;
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "#eee";
+
+}
