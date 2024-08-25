@@ -1,6 +1,11 @@
-﻿<nav class="active">
-    <div class="nav-bar">
-        <span class="logo navLogo"><a href=@PathTitle>@Title</a></span>
+﻿<nav class="active" style="
+        background-color: @BackgroundColor;">
+    <div class="nav-bar" style="
+        background-color: @BackgroundColor;">
+        <span class="logo navLogo">
+            <img src=@PathImg width="32" height="32" /><a style="
+            color: @TextColor;" href=@PathTitle>@Title</a>
+        </span>
         <div class="darkLight-searchBox">
             <div class="dark-light" @onclick=@OnChangeMode>
                 <img class='moon' src=@PathDarkMode width="32" height="32"/>
@@ -16,7 +21,6 @@
         grid-area: header;
         height: 70px;
         width: 100%;
-        background-color: @BackgroundColor;
         z-index: 100;
     }
 
@@ -29,9 +33,7 @@
         height: 100%;
         max-width: 1000px;
         width: 100%;
-        background-color: @BackgroundColor;
         margin: 0 auto;
-        padding: 0 30px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -40,7 +42,6 @@
         nav .nav-bar .logo a {
             font-size: 25px;
             font-weight: 500;
-            color: @TextColor;
             text-decoration: none;
         }
 
@@ -97,6 +98,9 @@
 
     [Parameter]
     public string PathTitle { get; set; } = "#";
+
+    [Parameter]
+    public string PathImg { get; set; } = default!;
 
     [Parameter]
     public string PathDarkMode { get; set; } = "#";

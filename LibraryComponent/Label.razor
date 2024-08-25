@@ -1,0 +1,12 @@
+﻿<label style="color: @TextColor;">
+    @Text
+</label>
+
+@code {
+
+    [Parameter]
+    public string Text { get; set; } = default!;
+
+    [Parameter]
+    public string TextColor { get; set; } = "#000";
+}

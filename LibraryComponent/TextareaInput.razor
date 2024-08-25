@@ -1,51 +1,51 @@
-﻿<div class="ch-text-input" style="width:@Width%;">
-    <textarea spellcheck="false" class="ch-textarea" placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged"
-    disabled=@Disabled></textarea>
+﻿<div class="ch-textarea-input" style="width:@Width%;">
+    <textarea spellcheck="false" class="ch-textarea" style="
+            color: @TextColor;
+            height: @HeightDesktop;" placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged"
+              disabled=@Disabled></textarea>
 </div>
 
 <style>
 
-    .ch-text-input {
+    .ch-textarea-input {
         border-radius: 5px;
         border: 1px solid #ccc;
         display: flex;
         border-bottom: 1px solid #ccc;
     }
 
-        .ch-text-input .ch-textarea {
-            height: @HeightDesktop;
+        .ch-textarea-input .ch-textarea {
             width: 100%;
             border: none;
             outline: none;
             resize: none;
-            color: @TextColor;
             background: none;
             font-size: 18px;
             padding: 10px 15px;
             border-radius: 5px;
         }
 
-            .ch-text-input .ch-textarea::placeholder {
+            .ch-textarea-input .ch-textarea::placeholder {
                 color: #b7b6b6;
             }
 
-            .ch-text-input .ch-textarea::-webkit-scrollbar {
+            .ch-textarea-input .ch-textarea::-webkit-scrollbar {
                 color: @TextColor;
                 width: 4px;
             }
 
-            .ch-text-input .ch-textarea::-webkit-scrollbar-track {
+            .ch-textarea-input .ch-textarea::-webkit-scrollbar-track {
                 background: #fff;
             }
 
-            .ch-text-input .ch-textarea::-webkit-scrollbar-thumb {
+            .ch-textarea-input .ch-textarea::-webkit-scrollbar-thumb {
                 background: #ddd;
                 border-radius: 8px;
             }
 
 </style>
 
-@code{
+@code {
     [Parameter]
     public string Value { get; set; } = default!;
 

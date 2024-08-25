@@ -1,12 +1,11 @@
-﻿<h1>
+﻿<h1 class="titleh1" style="color: @TextColor;">
     @Text
 </h1>
 
 <style>
 
-    h1 {
+    .titleh1 {
         text-align:center;
-        color: @TextColor;
         padding: 30px 20px 20px;
         font-size: 24px;
         width: 100%;
@@ -28,7 +27,7 @@
 
     public string MediaWidthStyle = @"
 @media (min-width: 600px) {
-    main h1 {
+    .titleh1 {
         max-width: 500px;
         margin: auto;
     }

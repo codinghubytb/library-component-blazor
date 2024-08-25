@@ -1,8 +1,12 @@
-﻿<div class="cards-inner">
-    <div>
-        <i class="@Icon"></i>
-        <img src=@Icon />
-    </div>
+﻿<div class="cards-inner" style="
+        background-color: @BackgroundColor;">
+    @if (!string.IsNullOrEmpty(Icon))
+    {
+        <div>
+            <i class="@Icon"></i>
+            <img src=@Icon />
+        </div>
+    }
 
     <div>
         <h4>@Title</h4>
@@ -17,7 +21,6 @@
 
     .cards-inner {
         display: flex;
-        background-color: @BackgroundColor;
         padding: 20px;
         border-radius: 5px;
         transition: box-shadow 0.4s;
@@ -62,7 +65,7 @@
     public string BackgroundColor { get; set; } = "#eee";
 
     [Parameter]
-    public int MaxDescriptionLength { get; set; } = 100; // Longueur maximale par défaut
+    public int MaxDescriptionLength { get; set; } = 200; // Longueur maximale par défaut
 
     private string TruncatedDescription =>
         Description.Length > MaxDescriptionLength

@@ -1,7 +1,9 @@
 ﻿@typeparam TItem
 
 <div class="ch-text-select" style="width:@Width%;">
-    <select class="ch-select" @bind="Value" @oninput="OnValueChanged">
+    <select class="ch-select" style="
+            color: @TextColor;
+            background: @BackgroundColor;" @bind="Value" @oninput="OnValueChanged">
         @ChildContent
     </select>
 </div>
@@ -19,8 +21,6 @@
             border: none;
             outline: none;
             resize: none;
-            color: @TextColor;
-            background: @BackgroundColor;
             font-size: 18px;
             padding: 10px 15px;
             border-radius: 5px;

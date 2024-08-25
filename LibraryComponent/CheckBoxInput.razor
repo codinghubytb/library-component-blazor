@@ -1,7 +1,8 @@
 ﻿
 <div class="checkbox-input">
     <input class="ch-checkbox-input" type="checkbox" id="@Id" @bind="Value" @oninput="OnValueChanged" />
-    <label class="ch-checkbox-label" for="@Id">@Label</label>
+    <label class="ch-checkbox-label" style="
+        color: @TextColor;" for="@Id">@Label</label>
 </div>
 
 <style>
@@ -14,7 +15,6 @@
 
     .ch-checkbox-label {
         cursor: pointer;
-        color: @TextColor;
         padding-left: 0.63rem;
     }
 </style>

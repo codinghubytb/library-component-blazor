@@ -1,16 +1,16 @@
-﻿<button class="ch-btn @(Active ? "active":"")" style="width:@Width%;" @onclick=OnClicked>@Text</button>
+﻿<button class="ch-btn @(Active ? "active":"")" style="width:@Width%;background: @BackgroundColor;color: @TextColor;" @onclick=OnClicked>
+    @Text
+</button>
 
 <style>
     .ch-btn {
         padding: 14px;
         outline: none;
         border: none;
-        color: @TextColor;
         cursor: pointer;
         font-size: 17px;
         text-align: center;
         border-radius: 5px;
-        background: @BackgroundColor;
     }
 
         .ch-btn.active,
