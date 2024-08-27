@@ -1,106 +1,75 @@
-﻿<form class="searchBarForm">
-    <div class="searchBar">
-        <span class="searchBar__icon" style="
-    color: @TextColor;"><img class='bx bx-search-alt-2' src="@PathImg" width="24" height="24" /></span>
-        <input class="searchBar__input" style="
-    background-color: @BackgroundColor;
-    border: 1px solid @BorderColor;" @bind="searchValue" @oninput="HandleInput" type="text" placeholder="Search here" />
-    </div>
-</form>
+﻿<div class="ch-search-input" style="border-color: @BorderColor;">
+    <input class="ch-input" style="
+            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged" 
+    disabled=@Disabled></input>
+</div>
 
 <style>
-    .searchBarForm {
-    height: auto;
-    padding: 8px 8px;
-    width: 100%;
-}
 
-.searchBar {
-    position: relative;
-}
+    .ch-search-input {
+        border-radius: 5px;
+        border: 1px solid;
+        display: flex;
+        width: 100%;
+        border-bottom: 1px solid #ccc;
+    }
 
-.searchBar__icon {
-    font-size: 24px;
-    position: absolute;
-    top: 50%;
-    left: 6px;
-    transform: translateY(-50%);
-}
+        .ch-search-input .ch-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            background: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
 
-.searchBar__input {
-    appearance: none;
-    outline: 0 none;
-    font-size: 16px;
-    line-height: 24px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    height: 36px;
-    padding: 6px 6px 6px 36px;
-    display: block;
-    width: 100%;
-}
+            .ch-search-input .ch-input::placeholder {
+                color: #b7b6b6;
+            }
 
-.searchBar__input,
-.searchBar__input::placeholder {
-    color: @TextColor;
-}
+            .ch-search-input .ch-input::-webkit-scrollbar {
+                color: @TextColor;
+                width: 4px;
+            }
 
-.searchBar__input:hover {
-    border-color: @BorderColorHover;
-}
+    .ch-input::-webkit-scrollbar-track {
+        background: #fff;
+    }
 
-.searchBar__input:active,
-.searchBar__input:focus {
-    border-color: @BorderColor;
-}
+    .ch-search-input .ch-input::-webkit-scrollbar-thumb {
+        background: #ddd;
+        border-radius: 8px;
+    }
 
-.searchBar__icon{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-</style>
-
-<style>
-    @MediaWidthStyle
 </style>
 
 @code {
     [Parameter]
-    public string BorderColor { get; set; } = "#695CFE";
+    public string Value { get; set; } = default!;
 
     [Parameter]
-    public string BorderColorHover { get; set; } = "#695CFE";
+    public string Placeholder { get; set; } = "Search...";
 
     [Parameter]
-    public string BackgroundColor { get; set; } = "#FFF";
+    public string TextColor { get; set; } = "#000";
 
     [Parameter]
-    public string TextColor { get; set; } = "#707070";
+    public string BackgroundColor { get; set; } = "#fff";
 
     [Parameter]
-    public string PlaceholderColor { get; set; } = "#d5d5d5";
+    public string BorderColor { get; set; } = "#ccc";
 
     [Parameter]
-    public EventCallback<string> OnSearch { get; set; }
-
+    public bool Disabled { get; set; }
 
     [Parameter]
-    public string PathImg { get; set; }
+    public EventCallback<string> ValueChanged { get; set; }
 
-    private string? searchValue;
-
-    public string MediaWidthStyle = @"
-@media screen and (min-width: 992px) {
-    .searchBarForm {
-        padding: 24px 24px;
-    }
-}";
-
-    private async Task HandleInput(ChangeEventArgs e)
+    private void OnValueChanged(ChangeEventArgs e)
     {
-        searchValue = e.Value?.ToString();
-        await OnSearch.InvokeAsync(searchValue);
+        Value = e.Value?.ToString() ?? string.Empty;
+        ValueChanged.InvokeAsync(Value);
     }
 }
