@@ -46,6 +46,10 @@ else
     [Parameter]
     public RenderFragment? EmptyResults { get; set; }
 
+
+    [Parameter]
+    public int MaxColumns { get; set; } = 1;
+
     public string MediaWidthStyle => $@"
 @media (min-width: 600px) {{
     .cards {{
@@ -62,7 +66,7 @@ else
 @media (min-width: 1200px) {{
 
     .cards {{
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat({MaxColumns}, 1fr);
     }}
 }}";
 }

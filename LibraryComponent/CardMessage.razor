@@ -3,7 +3,7 @@
 <div class="clearfix">
     <div class="message-data @(IsRight ? "align-right" : "")">
         <span class="message-data-time" style="color:@TextColor">
-            @($"{DateMessage.ToString("hh: mm tt", CultureInfo.InvariantCulture)}, {(DateMessage.Date == DateTime.Today ? "Today" : $"{DateTime.Now:MMMM dd}")}")
+            @($"{DateMessage.ToString("hh: mm tt", CultureInfo.InvariantCulture)}, {(DateMessage.Date == DateTime.Today ? "Today" : $"{DateMessage.Date:MMMM dd}")}")
         </span> &nbsp; &nbsp;
         <span class="message-data-name" style="color:@TextColor">@Name</span> <i class="fa fa-circle me"></i>
 
