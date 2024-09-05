@@ -5,7 +5,7 @@
 <style>
 
     .titleh1 {
-        text-align:center;
+        text-align: center;
         padding: 30px 20px 20px;
         font-size: 24px;
         width: 100%;
@@ -13,11 +13,7 @@
 
 </style>
 
-<style>
-    @MediaWidthStyle
-</style>
-
-@code{
+@code {
 
     [Parameter]
     public string Text { get; set; } = default!;
@@ -25,11 +21,4 @@
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
-    public string MediaWidthStyle = @"
-@media (min-width: 600px) {
-    .titleh1 {
-        max-width: 500px;
-        margin: auto;
-    }
-}";
 }

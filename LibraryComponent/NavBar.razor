@@ -8,8 +8,7 @@
         </span>
         <div class="darkLight-searchBox">
             <div class="dark-light" @onclick=@OnChangeMode>
-                <img class='moon' src=@PathDarkMode width="32" height="32"/>
-                <img class='sun' src=@PathLightMode width ="32" height="32" />
+                <img class='moon ' src=@PathMode width="32" height="32" />
             </div>
         </div>
     </div>
@@ -70,21 +69,6 @@
         transition: all 0.3s ease;
     }
 
-        .dark-light img.sun {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-    .dark-light.active img.sun {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .dark-light.active img.moon {
-        opacity: 0;
-        pointer-events: none;
-    }
-
 </style>
 
 @code {
@@ -104,10 +88,7 @@
     public string PathImg { get; set; } = default!;
 
     [Parameter]
-    public string PathDarkMode { get; set; } = "#";
-
-    [Parameter]
-    public string PathLightMode { get; set; } = "#";
+    public string PathMode { get; set; } = "#";
 
     [Parameter]
     public EventCallback ChangeModeEvent { get; set; }

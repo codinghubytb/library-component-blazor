@@ -1,7 +1,19 @@
-﻿<div class="ch-text-input" style="border-color: @BorderColor;">
-    <input class="ch-input" style="
+﻿@if (IsOnChange)
+{
+    <div class="ch-text-input" style="border-color: @BorderColor;">
+        <input class="ch-input" style="
+            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder  @onchange="OnValueChanged" disabled=@Disabled></input>
+    </div>
+}
+else
+{
+
+    <div class="ch-text-input" style="border-color: @BorderColor;">
+        <input class="ch-input" style="
             color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged" disabled=@Disabled></input>
-</div>
+    </div>
+
+}
 
 <style>
 
@@ -46,6 +58,9 @@
 
 @code{
     [Parameter]
+    public bool IsOnChange { get; set; } = true;
+
+    [Parameter]
     public string Value { get; set; } = default!;
 
     [Parameter]
@@ -55,7 +70,7 @@
     public string TextColor { get; set; } = "#000";
 
     [Parameter]
-    public string BackgroundColor { get; set; } = "#fff";
+    public string BackgroundColor { get; set; } = "Transparent";
 
     [Parameter]
     public string BorderColor { get; set; } = "#ccc";
