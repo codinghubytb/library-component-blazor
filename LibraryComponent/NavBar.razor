@@ -3,7 +3,12 @@
     <div class="nav-bar" style="
         background-color: @BackgroundColor;">
         <span class="logo navLogo">
-            <img src=@PathImg width="32" height="32" /><a style="
+            @if (!string.IsNullOrEmpty(PathImg))
+            {
+                <img src=@PathImg width="32" height="32" />
+
+            }
+            <a style="
             color: @TextColor;" href=@PathTitle>@Title</a>
         </span>
         <div class="darkLight-searchBox">
