@@ -1,6 +1,6 @@
 ﻿<div class="ch-number-input">
     <input type="number" class="ch-input" style="
-            color: @TextColor;" maxlength="9" placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged" disabled=@Disabled></input>
+            color: @TextColor;" min=@Min max=@Max placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged" disabled=@Disabled></input>
 </div>
 
 <style>
@@ -10,6 +10,7 @@
         border: 1px solid #ccc;
         display: flex;
         border-bottom: 1px solid #ccc;
+        width : 100%;
     }
 
         .ch-number-input .ch-input {
@@ -45,6 +46,12 @@
 @code {
     [Parameter]
     public int Value { get; set; } = default!;
+
+    [Parameter]
+    public int Min { get; set; } = 0;
+
+    [Parameter]
+    public int Max { get; set; } = 100;
 
     [Parameter]
     public string Placeholder { get; set; } = default!;

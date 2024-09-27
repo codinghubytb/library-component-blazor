@@ -1,21 +1,4 @@
-﻿<span class="loader" style="
-    border: 5px solid @PrimaryColor;"></span>
-
-<style>
-  
-.loader {
-    width: 48px;
-    height: 48px;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    }
-
-}
-
-</style>
+﻿<span class="loader"></span>
 
 <style>
     @KeyframesStyle
@@ -23,16 +6,27 @@
 
 @code{
     [Parameter]
-    public string PrimaryColor { get; set; } = "#695CFE";
+    public string PrimaryColor { get; set; } = "#000";
 
-    private string KeyframesStyle => @"
-    @keyframes rotation {
-    0% {
+    private string KeyframesStyle => $@"
+    .loader {{
+    width: 48px;
+    height: 48px;
+    border: 5px solid {PrimaryColor};
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }}
+
+    @keyframes rotation {{
+    0% {{
         transform: rotate(0deg);
-    }
-    100% {
+    }}
+    100% {{
         transform: rotate(360deg);
-    }
-    } 
+    }}
+    }}
     ";
 }

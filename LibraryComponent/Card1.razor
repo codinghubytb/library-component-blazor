@@ -1,0 +1,57 @@
+﻿<div style="width:100%; display:flex; flex-direction: column; padding: 20px; justify-content: space-around;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <Title Text=@Title IsCenter="false" />
+        <img src=@IconCloseSrc width="32" height="32" @onclick=OnClose />
+    </div>
+    <Space />
+    <div style="display:flex;width:100%;">
+        @ItemTemplate
+    </div>
+    <Space />
+    <div>
+        <p style="color : red">@Error</p>
+        <Button Text=@TitleButton BackgroundColor=@BackgroundColorButton ClickEvent=@OnDownload Active=@DisabledButton TextColor=@TextColorButton />
+    </div>
+</div>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment ItemTemplate { get; set; } = default!;
+
+    [Parameter]
+    public string Title { get; set; } = default!;
+
+    [Parameter]
+    public bool DisabledButton { get; set; } = default!;
+
+    [Parameter]
+    public string TitleButton { get; set; } = default!;
+
+    [Parameter]
+    public string IconCloseSrc { get; set; } = default!;
+
+    [Parameter]
+    public string Error { get; set; } =  default!;
+    [Parameter]
+    public string BackgroundColorButton { get; set; } = "#000";
+    [Parameter]
+    public string TextColorButton { get; set; } = "#fff";
+
+    [Parameter]
+    public EventCallback CloseEventCallBack { get; set; } = default!;
+
+    public Task OnClose()
+    {
+        return CloseEventCallBack.InvokeAsync();
+    }
+
+    [Parameter]
+    public EventCallback DownloadEventCallBack { get; set; } = default!;
+
+    public Task OnDownload()
+    {
+        return DownloadEventCallBack.InvokeAsync();
+    }
+
+}

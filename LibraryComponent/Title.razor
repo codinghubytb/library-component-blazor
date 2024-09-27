@@ -1,19 +1,31 @@
-﻿<h1 class="titleh1" style="color: @TextColor;">
-    @Text
-</h1>
+﻿@if (IsCenter)
+{
+    <h1 class="titleh1" style="color: @TextColor;
+        font-size: @($"{FontSize}px");
+text-align: center;">
+        @Text
+    </h1>
+}
+else
+{
+    <h1 class="titleh1" style="color: @TextColor;
+        font-size: @($"{FontSize}px");">
+        @Text
+    </h1>
+}
+
 
 <style>
 
     .titleh1 {
-        text-align: center;
-        padding: 30px 20px 20px;
-        font-size: 24px;
         width: 100%;
     }
 
 </style>
 
 @code {
+    [Parameter]
+    public int FontSize { get; set; } = 24;
 
     [Parameter]
     public string Text { get; set; } = default!;
@@ -21,4 +33,20 @@
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    [Parameter]
+    public bool IsCenter { get; set; } = true;
+
+    string Media = "";
+
+    protected override void OnParametersSet()
+    {
+        Media = $@"
+        <style>
+        @media only screen and (max-width: 1200px) {{
+            .titleh1 {{
+                font-size: {FontSize - 10}px;
+            }}
+        }}
+        </style>";
+    }
 }
