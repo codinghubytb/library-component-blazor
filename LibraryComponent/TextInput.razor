@@ -1,64 +1,64 @@
-﻿@if (IsOnChange)
+﻿@using System.Timers
+
+@if (IsOnChange)
 {
     <div class="ch-text-input" style="border-color: @BorderColor;">
         <input class="ch-input" style="
-            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder  @onchange="OnValueChanged" disabled=@Disabled></input>
+            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder @onchange="OnValueChanged" disabled=@Disabled></input>
     </div>
 }
 else
 {
-
     <div class="ch-text-input" style="border-color: @BorderColor;">
         <input class="ch-input" style="
-            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder @bind="Value" @oninput="OnValueChanged" disabled=@Disabled></input>
+            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder @bind=Value @oninput ="OnInput" disabled=@Disabled></input>
     </div>
-
 }
 
 <style>
-
     .ch-text-input {
         border-radius: 5px;
         border: 1px solid;
         display: flex;
-        width:100%;
+        width: 100%;
         border-bottom: 1px solid #ccc;
     }
 
-        .ch-text-input .ch-input {
-            width: 100%;
-            border: none;
-            outline: none;
-            resize: none;
-            background: none;
-            font-size: 18px;
-            padding: 10px 15px;
-            border-radius: 5px;
-        }
+    .ch-text-input .ch-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        resize: none;
+        background: none;
+        font-size: 18px;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
 
-            .ch-text-input .ch-input::placeholder {
-                color: #b7b6b6;
-            }
+    .ch-text-input .ch-input::placeholder {
+        color: #b7b6b6;
+    }
 
-            .ch-text-input .ch-input::-webkit-scrollbar {
-                color: @TextColor;
-                width: 4px;
-            }
+    .ch-text-input .ch-input::-webkit-scrollbar {
+        color: @TextColor;
+        width: 4px;
+    }
 
-            .ch-input::-webkit-scrollbar-track {
-                background: #fff;
-            }
+    .ch-input::-webkit-scrollbar-track {
+        background: #fff;
+    }
 
-            .ch-text-input .ch-input::-webkit-scrollbar-thumb {
-                background: #ddd;
-                border-radius: 8px;
-            }
-
+    .ch-text-input .ch-input::-webkit-scrollbar-thumb {
+        background: #ddd;
+        border-radius: 8px;
+    }
 </style>
 
-@code{
+@code {
+    private Timer _debounceTimer;
+
     [Parameter]
-    public bool IsOnChange { get; set; } = true;
+    public bool IsOnChange { get; set; } = false;
 
     [Parameter]
     public string Value { get; set; } = default!;
@@ -81,9 +81,33 @@ else
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
+    private void OnInput(ChangeEventArgs e)
+    {
+        // Cancel the previous timer
+        _debounceTimer?.Stop();
+
+        // Set the new value
+        Value = e.Value?.ToString() ?? string.Empty;
+
+        // Start a new timer
+        _debounceTimer = new Timer(300); // Adjust the delay as needed
+        _debounceTimer.Elapsed += (sender, args) =>
+        {
+            _debounceTimer.Stop();
+            InvokeAsync(() => ValueChanged.InvokeAsync(Value));
+        };
+        _debounceTimer.Start();
+    }
+
     private void OnValueChanged(ChangeEventArgs e)
     {
         Value = e.Value?.ToString() ?? string.Empty;
         ValueChanged.InvokeAsync(Value);
+    }
+
+    // Ensure to dispose the timer
+    public void Dispose()
+    {
+        _debounceTimer?.Dispose();
     }
 }

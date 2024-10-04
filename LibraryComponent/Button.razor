@@ -1,4 +1,8 @@
-﻿<button class="ch-btn @(Active ? "active":"")" style="width:@Width%;background: @BackgroundColor;color: @TextColor;" @onclick=OnClicked>
+﻿<button class="ch-btn @(Active ? "active":"")" style="width:@Width;background: @BackgroundColor;color: @TextColor;" @onclick=OnClicked>
+    @if(!string.IsNullOrEmpty(Icon))
+    {
+        <img src="@Icon" width=@WidthIcon height=@HeightIcon />
+    }
     @Text
 </button>
 
@@ -18,31 +22,56 @@
             pointer-events: none;
             opacity: 0.7;
         }
-
 </style>
 
-@code{
-    [EditorRequired]
+@code {
+    /// <summary>
+    /// The text displayed on the button.
+    /// </summary>
     [Parameter]
     public string Text { get; set; } = default!;
 
     [Parameter]
-    public EventCallback ClickEvent{ get; set; }
+    public string Icon { get; set; }
+    
+    [Parameter]
+    public int HeightIcon { get; set; } = 24;
+    
+    [Parameter]
+    public int WidthIcon { get; set; } = 24;
 
+    /// <summary>
+    /// The event triggered when the button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback ClickEvent { get; set; }
+
+    /// <summary>
+    /// The background color of the button. Default is white (#fff).
+    /// </summary>
     [Parameter]
     public string BackgroundColor { get; set; } = "#fff";
 
+    /// <summary>
+    /// The text color inside the button. Default is black (#000).
+    /// </summary>
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    /// <summary>
+    /// Indicates whether the button is active or not.
+    /// </summary>
     [Parameter]
     public bool Active { get; set; }
 
+    /// <summary>
+    /// The width of the button as a percentage. Default is 100%.
+    /// </summary>
     [Parameter]
-    public int Width { get; set; } = 100;
+    public string Width { get; set; } = "100%";
 
     void OnClicked()
     {
-        ClickEvent.InvokeAsync();    
+        ClickEvent.InvokeAsync();
     }
 }

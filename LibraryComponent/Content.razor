@@ -1,0 +1,9 @@
+﻿<div style="display:flex;justify-content:space-between; gap: 10px;">
+    @ItemTemplate
+</div>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment? ItemTemplate { get; set; } = default!;
+}
