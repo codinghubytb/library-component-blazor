@@ -1,19 +1,9 @@
-﻿@using System.Timers
-
-@if (IsOnChange)
-{
-    <div class="ch-text-input" style="border-color: @BorderColor;">
-        <input class="ch-input" style="
-            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder @onchange="OnValueChanged" disabled=@Disabled></input>
-    </div>
-}
-else
-{
-    <div class="ch-text-input" style="border-color: @BorderColor;">
-        <input class="ch-input" style="
-            color: @TextColor; background-color:@BackgroundColor;" placeholder=@Placeholder @bind=Value @oninput ="OnInput" disabled=@Disabled></input>
-    </div>
-}
+﻿<div class="ch-text-input" style="border-color: @BorderColor;">
+    <Microsoft.AspNetCore.Components.Forms.InputText Value="@Value"
+                                                     ValueChanged="@OnValueChanged"
+                                                     ValueExpression="@(() => Value)"
+                                                     AdditionalAttributes="@additionalAttributes" />
+</div>
 
 <style>
     .ch-text-input {
@@ -55,13 +45,13 @@ else
 </style>
 
 @code {
-    private Timer _debounceTimer;
+    private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
 
     [Parameter]
-    public bool IsOnChange { get; set; } = false;
+    public string Value { get; set; }
 
     [Parameter]
-    public string Value { get; set; } = default!;
+    public EventCallback<string> ValueChanged { get; set; }
 
     [Parameter]
     public string Placeholder { get; set; } = default!;
@@ -74,40 +64,27 @@ else
 
     [Parameter]
     public string BorderColor { get; set; } = "#ccc";
-    
+
+    [Parameter]
+    public int Maxlength { get; set; } = 1000;
+
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
-
-    private void OnInput(ChangeEventArgs e)
+    protected override void OnParametersSet()
     {
-        // Cancel the previous timer
-        _debounceTimer?.Stop();
+        additionalAttributes["class"] = "ch-input";
+        additionalAttributes["maxlength"] = Maxlength;
+        additionalAttributes["placeholder"] = Placeholder;
+        additionalAttributes["disabled"] = Disabled;
 
-        // Set the new value
-        Value = e.Value?.ToString() ?? string.Empty;
-
-        // Start a new timer
-        _debounceTimer = new Timer(300); // Adjust the delay as needed
-        _debounceTimer.Elapsed += (sender, args) =>
-        {
-            _debounceTimer.Stop();
-            InvokeAsync(() => ValueChanged.InvokeAsync(Value));
-        };
-        _debounceTimer.Start();
+        additionalAttributes["style"] = $"color: {TextColor}; background-color: {BackgroundColor};";
+    }
+    
+    private async Task OnValueChanged(string newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
     }
 
-    private void OnValueChanged(ChangeEventArgs e)
-    {
-        Value = e.Value?.ToString() ?? string.Empty;
-        ValueChanged.InvokeAsync(Value);
-    }
-
-    // Ensure to dispose the timer
-    public void Dispose()
-    {
-        _debounceTimer?.Dispose();
-    }
 }

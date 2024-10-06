@@ -2,22 +2,37 @@
 
 <div class="clearfix">
     <div class="message-data @(IsRight ? "align-right" : "")">
-        <span class="message-data-time" style="color:@TextColor">
-            @($"{DateMessage.ToString("hh: mm tt", CultureInfo.InvariantCulture)}, {(DateMessage.Date == DateTime.Today ? "Today" : $"{DateMessage.Date:MMMM dd}")}")
-        </span> &nbsp; &nbsp;
         <span class="message-data-name" style="color:@TextColor">@Name</span> <i class="fa fa-circle me"></i>
+        <span class="message-data-time" style="color:@TextColor; font-style: italic; font-size: 10px;">
+            @($"{DateMessage.ToString("hh: mm tt", CultureInfo.InvariantCulture)}, {(DateMessage.Date == DateTime.Today ? "Today" : $"{DateMessage.Date:MMMM dd}")}")
+        </span>
+        
 
     </div>
     @if (IsRight)
     {
         <div class="message my-message float-right" style="color:@MessageTextColorRight; background:@MessageBackgroundColorRight;">
-            @Message
+            @if (!string.IsNullOrEmpty(Link))
+            {
+
+                <iframe src=@Link width="150" frameborder="0" allowfullscreen />
+
+                <br />
+            }
+            <span>@Message</span><br/>
         </div>
     }
     else
     {
         <div class="message other-message" style="color:@MessageTextColorLeft;background:@MessageBackgroundColorLeft;">
-            @Message
+            @if (!string.IsNullOrEmpty(Link))
+            {
+
+                <iframe src=@Link width="150" frameborder="0" allowfullscreen />
+
+                <br />
+            }
+            <span>@Message</span>
         </div>
     }
 </div>
@@ -25,7 +40,7 @@
 <style>
 
     .message-data {
-        margin-bottom: 15px;
+        margin-bottom: 5px;
     }
 
     .message-data-time {
@@ -38,31 +53,13 @@
         font-size: 16px;
         border-radius: 7px;
         margin-bottom: 30px;
-        width: 90%;
+        width: auto;
+        max-width: 70%;
         position: relative;
         word-wrap: break-word; 
         word-break: break-word; 
         overflow-wrap: break-word;
     }
-
-        .message:after {
-            bottom: 100%;
-            left: 7%;
-            border: solid transparent;
-            content: " ";
-            height: 0;
-            width: 0;
-            position: absolute;
-            pointer-events: none;
-            border-bottom-color: @MessageBackgroundColorLeft;
-            border-width: 10px;
-            margin-left: -10px;
-        }
-
-        .my-message:after {
-        border-bottom-color: @MessageBackgroundColorRight;
-            left: 93%;
-        }
 
 
     .align-right {
@@ -90,6 +87,9 @@
 
     [Parameter]
     public string Message { get; set; }
+
+    [Parameter]
+    public string Link { get; set; }
 
     [Parameter]
     public DateTime DateMessage { get; set; }

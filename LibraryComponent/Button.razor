@@ -1,4 +1,4 @@
-﻿<button class="ch-btn @(Active ? "active":"")" style="width:@Width;background: @BackgroundColor;color: @TextColor;" @onclick=OnClicked>
+﻿<button class="ch-btn @(Active ? "active":"")" style="width:@Width;background: @BackgroundColor;color: @TextColor; display:flex; justify-content:center; align-items:center;" @onclick=OnClicked>
     @if(!string.IsNullOrEmpty(Icon))
     {
         <img src="@Icon" width=@WidthIcon height=@HeightIcon />

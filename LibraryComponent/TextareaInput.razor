@@ -1,32 +1,11 @@
-﻿@using System.Timers
-
-@if (IsOnChange)
-
-{
+﻿
     <div class="ch-textarea-input" style="width:@Width;">
-        <textarea spellcheck="false" class="ch-textarea" style="
-            color: @TextColor;
-            font-size: @FontSize;
-            background-color:@BackgroundColor"
-                  rows=@Row
-                  cols=@Col
-                  placeholder=@Placeholder @onchange="OnValueChanged"
-                  disabled=@Disabled></textarea>
+        <Microsoft.AspNetCore.Components.Forms.InputTextArea 
+                                                     Value="@Value"
+                                                     ValueChanged="@OnValueChanged"
+                                                     ValueExpression="@(() => Value)"
+                                                     AdditionalAttributes="@additionalAttributes" />
     </div>
-}
-else
-{
-    <div class="ch-textarea-input" style="width:@Width;">
-        <textarea spellcheck="false" class="ch-textarea" style="
-            color: @TextColor;
-            font-size: @FontSize;
-            background-color:@BackgroundColor"
-                  rows=@Row
-                  cols=@Col
-                  placeholder=@Placeholder @bind=Value @oninput="OnInput" 
-                  disabled=@Disabled></textarea>
-    </div>
-}
 
 <style>
     .ch-textarea-input {
@@ -67,19 +46,19 @@ else
 </style>
 
 @code {
-    private Timer _debounceTimer;
+    private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
+
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
 
     [Parameter]
     public int Row { get; set; } = 10;
 
     [Parameter]
     public int Col { get; set; } = 50;
-
-    [Parameter]
-    public bool IsOnChange { get; set; } = false;
-
-    [Parameter]
-    public string Value { get; set; } = default!;
 
     [Parameter]
     public string Placeholder { get; set; } = default!;
@@ -92,6 +71,9 @@ else
 
     [Parameter]
     public string FontSize { get; set; } = "18px";
+    
+    [Parameter]
+    public int Maxlength { get; set; } = 1000;
 
     [Parameter]
     public string Width { get; set; } = "100%";
@@ -99,36 +81,21 @@ else
     [Parameter]
     public bool Disabled { get; set; }
 
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
-
-    private void OnInput(ChangeEventArgs e)
+    protected override void OnParametersSet()
     {
-        // Annuler le précédent timer
-        _debounceTimer?.Stop();
-
-        // Mettre à jour la valeur
-        Value = e.Value?.ToString() ?? string.Empty;
-
-        // Démarrer un nouveau timer pour le debounce
-        _debounceTimer = new Timer(300); // Délai de 300 ms
-        _debounceTimer.Elapsed += (sender, args) =>
-        {
-            _debounceTimer.Stop();
-            InvokeAsync(() => ValueChanged.InvokeAsync(Value));
-        };
-        _debounceTimer.Start();
+        additionalAttributes["class"] = "ch-textarea";
+        additionalAttributes["rows"] = Row;
+        additionalAttributes["cols"] = Col;
+        additionalAttributes["placeholder"] = Placeholder;
+        additionalAttributes["disabled"] = Disabled;
+        additionalAttributes["maxlength"] = Maxlength;
+        additionalAttributes["style"] = $"color: {TextColor};font-size: {FontSize};background-color:{BackgroundColor}";
+    }
+    
+    private async Task OnValueChanged(string newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
     }
 
-    private void OnValueChanged(ChangeEventArgs e)
-    {
-        Value = e.Value?.ToString() ?? string.Empty;
-        ValueChanged.InvokeAsync(Value);
-    }
-
-    // Assurez-vous de libérer le timer
-    public void Dispose()
-    {
-        _debounceTimer?.Dispose();
-    }
 }

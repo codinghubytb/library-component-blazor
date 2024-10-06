@@ -1,11 +1,13 @@
-﻿@typeparam TItem
+﻿@typeparam TValue
 
 <div class="ch-text-select" style="width:@Width%;">
-    <select class="ch-select" style="
-            color: @TextColor;
-            background: @BackgroundColor;" @bind="Value" @oninput="OnValueChanged">
+    <Microsoft.AspNetCore.Components.Forms.InputSelect Value="@Value"
+                                                        TValue="TValue"
+                                                        ValueChanged="@OnValueChanged"
+                                                        ValueExpression="@(() => Value)"
+                                                        AdditionalAttributes="@additionalAttributes">
         @ChildContent
-    </select>
+    </Microsoft.AspNetCore.Components.Forms.InputSelect>
 </div>
 
 <style>
@@ -16,26 +18,29 @@
         border-bottom: 1px solid #ccc;
     }
 
-        .ch-text-select .ch-select {
-            width: 100%;
-            border: none;
-            outline: none;
-            resize: none;
-            font-size: 18px;
-            padding: 10px 15px;
-            border-radius: 5px;
-        }
+    .ch-text-select .ch-select {
+        width: 100%;
+        border: none;
+        outline: none;
+        resize: none;
+        font-size: 18px;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
 
-            .ch-text-select .ch-select::placeholder {
-                color: #b7b6b6;
-            }
-
-
+    .ch-text-select .ch-select::placeholder {
+        color: #b7b6b6;
+    }
 </style>
 
 @code {
+    private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
+
     [Parameter]
-    public TItem Value { get; set; } = default!;
+    public TValue Value { get; set; }
+
+    [Parameter]
+    public EventCallback<TValue> ValueChanged { get; set; }
 
     [Parameter]
     public string TextColor { get; set; } = "#000";
@@ -53,28 +58,17 @@
     }
 
     [Parameter]
-    public EventCallback<TItem> ValueChanged { get; set; }
-
-    [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    private void OnValueChanged(ChangeEventArgs e)
+    protected override void OnParametersSet()
     {
-        try
-        {
-            if (typeof(TItem).IsEnum)
-            {
-                Value = (TItem)Enum.Parse(typeof(TItem), e.Value.ToString());
-            }
-            else
-            {
-                Value = (TItem)Convert.ChangeType(e.Value, typeof(TItem));
-            }
-            ValueChanged.InvokeAsync(Value);
-        }
-        catch
-        {
-            
-        }
+        additionalAttributes["class"] = "ch-select";
+        additionalAttributes["style"] = $"color: {TextColor}; background: {BackgroundColor};";
+    }
+
+    private async Task OnValueChanged(TValue newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
     }
 }

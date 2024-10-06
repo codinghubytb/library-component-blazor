@@ -1,6 +1,10 @@
 ﻿
 <div class="checkbox-input">
-    <input class="ch-checkbox-input" type="checkbox" id="@Id" @bind="Value" @oninput="OnValueChanged" />
+    <Microsoft.AspNetCore.Components.Forms.InputCheckbox    Value="@Value"
+                                                            ValueChanged="@OnValueChanged"
+                                                            ValueExpression="@(() => Value)"
+                                                            AdditionalAttributes="@additionalAttributes" />
+
     <label class="ch-checkbox-label" style="
         color: @TextColor;" for="@Id">@Label</label>
 </div>
@@ -20,6 +24,15 @@
 </style>
 
 @code {
+
+    private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
     [Parameter]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
@@ -27,16 +40,17 @@
     public string Label { get; set; } = string.Empty;
 
     [Parameter]
-    public bool Value { get; set; } = false;
-
-    [Parameter]
     public string TextColor { get; set; } = "#000";
 
-    [Parameter]
-    public EventCallback<bool> ValueChanged { get; set; }
-
-    private void OnValueChanged(ChangeEventArgs e)
+    protected override void OnParametersSet()
     {
-        ValueChanged.InvokeAsync(!Value);
+        additionalAttributes["class"] = "ch-checkbox-input";
+        additionalAttributes["id"] = Id;
+    }
+
+    private async Task OnValueChanged(bool newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
     }
 }
