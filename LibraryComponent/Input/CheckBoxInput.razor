@@ -1,5 +1,5 @@
 ﻿
-<div class="checkbox-input">
+<div class="ch-checkbox-input">
     <Microsoft.AspNetCore.Components.Forms.InputCheckbox    Value="@Value"
                                                             ValueChanged="@OnValueChanged"
                                                             ValueExpression="@(() => Value)"
@@ -25,32 +25,48 @@
 
 @code {
 
+    // Dictionary to store additional HTML attributes for the checkbox element.
     private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
 
+    // Parameter to bind the value of the checkbox (checked or unchecked).
     [Parameter]
     public bool Value { get; set; }
 
+    // Event callback that triggers when the checkbox value changes.
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
 
+    // Parameter to set a unique identifier (ID) for the checkbox element.
+    // The ID is generated using a new GUID by default to ensure it is unique.
     [Parameter]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
+    // Parameter to set the label text for the checkbox.
     [Parameter]
     public string Label { get; set; } = string.Empty;
 
+    // Parameter to set the text color for the checkbox label.
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    // This method is called when the component's parameters are set or updated.
+    // It sets up the additional HTML attributes that will be applied to the checkbox input element.
     protected override void OnParametersSet()
     {
+        // Adds a CSS class to style the checkbox input.
         additionalAttributes["class"] = "ch-checkbox-input";
+
+        // Assigns a unique ID to the checkbox input to link it with the label.
         additionalAttributes["id"] = Id;
     }
 
+    // Method that handles the value change event of the checkbox.
     private async Task OnValueChanged(bool newValue)
     {
+        // Updates the Value property with the new checkbox state.
         Value = newValue;
+
+        // Invokes the ValueChanged event callback to notify the parent component of the state change.
         await ValueChanged.InvokeAsync(newValue);
     }
 }

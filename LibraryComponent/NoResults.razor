@@ -1,0 +1,66 @@
+﻿﻿<div style="
+        align-items: center;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 20px 16px;">
+    @if (!string.IsNullOrEmpty(Image))
+    {
+        <img class="ch-no-results_image" src="@Image" alt="@Message" loading="lazy" />
+    }
+    <h2 class="ch-no-results_message" 
+        style="color: @Color">
+        @Message
+    </h2>
+    @if (Description != null)
+    {
+        <p class="ch-no-results_description"
+           style="color: @Color">@Description</p>
+    }
+</div>
+
+<style>
+
+    .ch-no-results_image {
+        max-width: 300px;
+        width: 40%;
+    }
+
+    .ch-no-results_description {
+        margin-top: 12px;
+        max-width: 422px;
+    }
+
+</style>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public string Message { get; set; } = default!;
+
+    [Parameter]
+    public string? Color { get; set; } = "#000";
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public string Image { get; set; } = default!;
+
+    [Parameter]
+    public bool? ShowDiscoverButton { get; set; }
+
+    string Media = @"
+@media screen and (min-width: 992px) {
+        .ch-no-results {
+            padding: 50px 16px;
+        }
+
+        .ch-no-results_image {
+            width: 100%;
+        }
+
+    }";
+}

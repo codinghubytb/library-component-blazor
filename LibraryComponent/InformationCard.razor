@@ -1,0 +1,53 @@
+﻿<div class="ch-informationcontent" @onclick=OnClick
+     style="background-color: @BackgroundColor; font-size: @FontSize;">
+    <span class="ch-informationcontent-icon" style="color: @TextColor">@Icon</span>
+    <span style="color: @TextColor">@Text</span>
+</div>
+
+<style>
+
+    .ch-informationcontent {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .ch-informationcontent-icon {
+        margin-right: 10px;
+    }
+
+</style>
+
+@code {
+    // The text content to be displayed in the component.
+    [Parameter]
+    public string Text { get; set; } = default!;
+
+    // The icon to be displayed alongside the text, represented as a string.
+    [Parameter]
+    public string Icon { get; set; } = default!;
+
+    // The color of the text, defaulting to black (#000).
+    [Parameter]
+    public string TextColor { get; set; } = "#000";
+
+    // The background color of the component, defaulting to 'whitesmoke'.
+    [Parameter]
+    public string BackgroundColor { get; set; } = "whitesmoke";
+
+    // The font size for the text, defaulting to 'medium'.
+    [Parameter]
+    public string FontSize { get; set; } = "medium";
+
+    // Callback event that triggers when the component is clicked, passing the text as a parameter.
+    [Parameter]
+    public EventCallback<string> ClickEvent { get; set; }
+
+    // Invokes the ClickEvent callback when the component is clicked.
+    private Task OnClick()
+    {
+        return ClickEvent.InvokeAsync(Text);
+    }
+}

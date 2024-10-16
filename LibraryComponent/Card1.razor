@@ -15,7 +15,6 @@
 </div>
 
 @code {
-    [EditorRequired]
     [Parameter]
     public RenderFragment ItemTemplate { get; set; } = default!;
 
@@ -33,8 +32,10 @@
 
     [Parameter]
     public string Error { get; set; } =  default!;
+
     [Parameter]
     public string BackgroundColorButton { get; set; } = "#000";
+
     [Parameter]
     public string TextColorButton { get; set; } = "#fff";
 

@@ -8,7 +8,7 @@
     }
     else
     {
-        <NoResults Message="Oops, no results found." Image="_content/Diversefy.Components/images/empty-results.png" ShowDiscoverButton="false" />
+        <NoResults Message="Oops, no results found." Image=@IconNoResult ShowDiscoverButton="false" />
     }
 }
 else
@@ -35,38 +35,45 @@ else
 </style>
 
 @code {
+    // Collection of items to display, required for editing.
     [EditorRequired]
     [Parameter]
     public IEnumerable<TItem>? Items { get; set; }
 
+    // Template for rendering each item in the Items collection, required for editing.
     [EditorRequired]
     [Parameter]
     public RenderFragment<TItem> ItemTemplate { get; set; } = default!;
 
+    // Content to display when the item list is empty.
     [Parameter]
     public RenderFragment? EmptyResults { get; set; }
 
-
+    // Maximum number of columns to display in the grid.
     [Parameter]
     public int MaxColumns { get; set; } = 1;
 
+    // Icon to display when no results are found.
+    [Parameter]
+    public string IconNoResult { get; set; } = "";
+
+    // Dynamic CSS style for managing the width of cards based on screen size.
     public string MediaWidthStyle => $@"
 @media (min-width: 600px) {{
     .cards {{
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(1, 1fr); // One column for small screens.
     }}
 }}
 
 @media (min-width: 912px) {{
     .cards {{
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(1, 1fr); // One column for medium screens.
     }}
 }}
 
 @media (min-width: 1200px) {{
-
     .cards {{
-        grid-template-columns: repeat({MaxColumns}, 1fr);
+        grid-template-columns: repeat({MaxColumns}, 1fr); // Number of columns defined by MaxColumns for large screens.
     }}
 }}";
 }

@@ -1,17 +1,20 @@
 ﻿@using System.Globalization
 
-<div class="clearfix">
-    <div class="message-data @(IsRight ? "align-right" : "")">
-        <span class="message-data-name" style="color:@TextColor">@Name</span> <i class="fa fa-circle me"></i>
-        <span class="message-data-time" style="color:@TextColor; font-style: italic; font-size: 10px;">
-            @($"{DateMessage.ToString("hh: mm tt", CultureInfo.InvariantCulture)}, {(DateMessage.Date == DateTime.Today ? "Today" : $"{DateMessage.Date:MMMM dd}")}")
-        </span>
-        
-
+<div class="ch-clearfix">
+    <div class="ch-message-data @(IsRight ? "align-right" : "")">
+        <span class="ch-message-data-name" style="color:@TextColor">@Name</span> <i class="fa fa-circle me"></i>
+        @if (DateMessage != null)
+        {
+            @($"{DateMessage.ToString("hh:mm tt", CultureInfo.InvariantCulture)}, {(DateMessage.Date == DateTime.Today ? "Today" : $"{DateMessage.Date:MMMM dd}")}")
+        }
+        else
+        {
+            <span>Invalid Date</span>
+        }
     </div>
     @if (IsRight)
     {
-        <div class="message my-message float-right" style="color:@MessageTextColorRight; background:@MessageBackgroundColorRight;">
+        <div class="ch-message ch-my-message ch-float-right" style="color:@MessageTextColorRight; background:@MessageBackgroundColorRight;">
             @if (!string.IsNullOrEmpty(Link))
             {
 
@@ -24,7 +27,7 @@
     }
     else
     {
-        <div class="message other-message" style="color:@MessageTextColorLeft;background:@MessageBackgroundColorLeft;">
+        <div class="ch-message ch-other-message" style="color:@MessageTextColorLeft;background:@MessageBackgroundColorLeft;">
             @if (!string.IsNullOrEmpty(Link))
             {
 
@@ -39,15 +42,15 @@
 
 <style>
 
-    .message-data {
+    .ch-message-data {
         margin-bottom: 5px;
     }
 
-    .message-data-time {
+    .ch-message-data-time {
         padding-left: 6px;
     }
 
-    .message {
+    .ch-message {
         padding: 18px 20px;
         line-height: 26px;
         font-size: 16px;
@@ -62,15 +65,15 @@
     }
 
 
-    .align-right {
+    .ch-align-right {
         text-align: right;
     }
 
-    .float-right {
+    .ch-float-right {
         float: right;
     }
 
-    .clearfix:after {
+    .ch-clearfix:after {
         visibility: hidden;
         display: block;
         font-size: 0;

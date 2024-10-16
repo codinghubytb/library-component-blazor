@@ -1,113 +1,98 @@
-﻿<nav class="active" style="
-        background-color: @BackgroundColor;">
-    <div class="nav-bar" style="
-        background-color: @BackgroundColor;">
-        <span class="logo navLogo">
-            @if (!string.IsNullOrEmpty(PathImg))
+﻿<nav class="active ch-nav" style="
+        height: @Height;
+        background-color: @BackgroundColor;
+        @(IsUseBoxShadow ? "box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);" :"")">
+    <div class="ch-nav-bar" style="
+        background-color: @BackgroundColor;
+        max-width: @MaxWidth;">
+        <span class="ch-logo">
+            @if (!string.IsNullOrEmpty(PathIcon))
             {
-                <img src=@PathImg  height="32" />
+                <img src=@PathIcon height="32" />
 
             }
-            <a style="
+            <a class="ch-a" style="
             color: @TextColor;" href=@PathTitle>@Title</a>
         </span>
-        <div class="darkLight-searchBox">
-            <div class="dark-light" @onclick=@OnChangeMode>
-                <img class='moon ' src=@PathMode width="32" height="32" />
-            </div>
+        <div class="ch-container-icons">
+            @ItemTemplate
         </div>
     </div>
 </nav>
 
 <style>
-    nav {
+    .ch-nav {
         position: fixed;
         grid-area: header;
-        height: 70px;
         width: 100%;
         z-index: 100;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     }
 
-    body.dark nav {
-        border: 1px solid #393838;
-    }
-
-    nav .nav-bar {
-        padding : 1rem;
-        position: relative;
-        height: 100%;
-        max-width: 1100px;
-        width: 100%;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-        nav .nav-bar .logo {
-            display:flex;
-            gap: 10px;
-            justify-content:center;
-            align-items:center;
-        }
-        nav .nav-bar .logo a {
-            font-size: 20px;
-            font-weight: 500;
-            text-decoration: none;
+        .ch-nav .ch-nav-bar {
+            padding: 1rem;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-    .nav-bar .darkLight-searchBox {
+            .ch-nav .ch-nav-bar .ch-logo {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                align-items: center;
+            }
+
+                .ch-nav .ch-nav-bar .ch-logo .ch-a {
+                    font-size: 20px;
+                    font-weight: 500;
+                    text-decoration: none;
+                }
+
+    .ch-nav-bar .ch-container-icons {
         display: flex;
         align-items: center;
-    }
-
-    .darkLight-searchBox .dark-light,
-    .darkLight-searchBox .searchToggle {
-        height: 40px;
-        width: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 5px;
-    }
-
-    .dark-light img,
-    .searchToggle img {
-        position: absolute;
-        color: @TextColor;
-        font-size: 22px;
-        cursor: pointer;
-        transition: all 0.3s ease;
     }
 
 </style>
 
 @code {
+    // Height of the navigation bar
+    [Parameter]
+    public string Height { get; set; } = "70px";
+
+    // Template for additional items (icons, links, etc.) in the navigation bar
+    [Parameter]
+    public RenderFragment? ItemTemplate { get; set; } = default!;
+
+    // Background color of the navigation bar
     [Parameter]
     public string BackgroundColor { get; set; } = "#fff";
 
+    // Text color in the navigation bar
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    // Title displayed in the navigation bar
     [Parameter]
     public string Title { get; set; } = "Title";
 
+    // URL of the link associated with the title
     [Parameter]
-    public string PathTitle { get; set; } = "#";
+    public string PathTitle { get; set; } = "";
 
+    // Path to the icon to be displayed next to the title
     [Parameter]
-    public string PathImg { get; set; } = default!;
+    public string PathIcon { get; set; } = default!;
 
+    // Maximum width of the navigation bar
     [Parameter]
-    public string PathMode { get; set; } = "#";
+    public string MaxWidth { get; set; } = "1100px";
 
+    // Indicates whether a box shadow should be applied to the navigation bar
     [Parameter]
-    public EventCallback ChangeModeEvent { get; set; }
-
-    void OnChangeMode()
-    {
-        ChangeModeEvent.InvokeAsync();
-    }
-
+    public bool IsUseBoxShadow { get; set; } = true;
 }

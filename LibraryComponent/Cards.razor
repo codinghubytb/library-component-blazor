@@ -1,26 +1,33 @@
-﻿<div class="cards-inner" style="
-        background-color: @BackgroundColor;">
+﻿<div class="ch-cards-inner" style="background-color: @BackgroundColor;">
+    @if (!string.IsNullOrEmpty(Indication))
+    {
+        <div class="ch-indication" style="
+        background-color: @BackgroundColorIndicator;
+        color: @TextColorIndicator;">
+            @Indication
+        </div>
+    }
     @if (!string.IsNullOrEmpty(Icon))
     {
-        <div>
+        <div class="ch-element-icon">
             <i class="@Icon"></i>
-            <img src=@Icon />
+            <img src=@Icon loading="lazy" />
         </div>
     }
 
-    <div>
+    <div class="ch-cards-element">
         <h4>@Title</h4>
-        <small>@Author</small>
-        <p>
-            @TruncatedDescription
-        </p>
+        <small>@SubTitle</small>
+        <div class="ch-element-body">
+            @ItemTemplate
+        </div>
     </div>
 </div>
 
 <style>
-
-    .cards-inner {
+    .ch-cards-inner {
         display: flex;
+        position: relative; /* Required for absolutely positioned children */
         padding: 20px;
         border-radius: 5px;
         height: 100%;
@@ -28,26 +35,39 @@
         transition: box-shadow 0.4s;
     }
 
-        .cards-inner:hover {
+        .ch-cards-inner:hover {
             box-shadow: 0 5px 20px rgba(1, 45, 128, 0.5);
         }
 
-        .cards-inner div img {
+        .ch-cards-inner .ch-element-icon img {
             width: 64px;
             height: 64px;
             margin-right: 20px;
+            object-fit: contain;
         }
 
-        .cards-inner div p {
-            margin-top: 20px;
+        .ch-cards-inner .ch-cards-element .ch-element-body {
             line-height: 1.6;
             font-size: 14px;
         }
+
+    .ch-indication {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: bold;
+    }
 
 </style>
 
 @code {
     [EditorRequired]
+    [Parameter]
+    public RenderFragment? ItemTemplate { get; set; } = default!;
+
     [Parameter]
     public string Icon { get; set; } = default!;
 
@@ -55,22 +75,18 @@
     [Parameter]
     public string Title { get; set; } = default!;
 
-    [EditorRequired]
     [Parameter]
-    public string Author { get; set; } = default!;
-
-    [EditorRequired]
-    [Parameter]
-    public string Description { get; set; } = default!;
-
+    public string SubTitle { get; set; } = default!;
+    
     [Parameter]
     public string BackgroundColor { get; set; } = "#eee";
 
     [Parameter]
-    public int MaxDescriptionLength { get; set; } = 200; // Longueur maximale par défaut
+    public string BackgroundColorIndicator { get; set; } = "#eee";
 
-    private string TruncatedDescription =>
-        Description.Length > MaxDescriptionLength
-        ? Description.Substring(0, MaxDescriptionLength) + "..."
-        : Description;
+    [Parameter]
+    public string TextColorIndicator { get; set; } = "#000";
+
+    [Parameter]
+    public string? Indication { get; set; } // New parameter for the indication label
 }

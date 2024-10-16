@@ -1,0 +1,74 @@
+﻿@typeparam TValue
+
+<div class="ch-text-select" style="width:@Width%;">
+    <Microsoft.AspNetCore.Components.Forms.InputSelect Value="@Value"
+                                                       TValue="TValue"
+                                                       ValueChanged="@OnValueChanged"
+                                                       ValueExpression="@(() => Value)"
+                                                       AdditionalAttributes="@additionalAttributes">
+        @ChildContent
+    </Microsoft.AspNetCore.Components.Forms.InputSelect>
+</div>
+
+<style>
+    .ch-text-select {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        display: flex;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .ch-text-select .ch-select {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+            .ch-text-select .ch-select::placeholder {
+                color: #b7b6b6;
+            }
+</style>
+
+@code {
+    private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>(); // Holds additional HTML attributes.
+
+    [Parameter]
+    public TValue Value { get; set; } // The current value of the select input.
+
+    [Parameter]
+    public EventCallback<TValue> ValueChanged { get; set; } // Callback invoked when the value changes.
+
+    [Parameter]
+    public string TextColor { get; set; } = "#000"; // Text color for the select input.
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "Transparent"; // Background color for the select input.
+
+    private int _width = 100; // Default width percentage for the select container.
+
+    [Parameter]
+    public int Width // Width property to control the select container's width.
+    {
+        get => _width;
+        set => _width = value >= 0 && value <= 100 ? value : 100; // Ensures width is between 0 and 100.
+    }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } // Content to be rendered inside the select input.
+
+    protected override void OnParametersSet() // Lifecycle method to set additional attributes.
+    {
+        additionalAttributes["class"] = "ch-select"; // Sets the CSS class for the select input.
+        additionalAttributes["style"] = $"color: {TextColor}; background: {BackgroundColor};"; // Sets inline styles.
+    }
+
+    private async Task OnValueChanged(TValue newValue) // Handles value changes in the select input.
+    {
+        Value = newValue; // Updates the value property.
+        await ValueChanged.InvokeAsync(newValue); // Invokes the value changed callback.
+    }
+}

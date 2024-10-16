@@ -1,14 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 
-<label for="images" class="drop-container dropzone @(isFileSelected ? "file-selected" : "")" id="dropcontainer">
-    <span class="drop-title" style="color:@TextColor">Drop files here</span>
+<label for="images" class="ch-drop-container @(isFileSelected ? "ch-file-selected" : "")" id="dropcontainer">
+    <span class="ch-drop-title" style="color:@TextColor">Drop files here</span>
     or
     
-    <InputFile class="drop-input" OnChange="HandleImageUpload" id="images" accept=".png, .jpg, .jpeg, .webp" />
+    <InputFile class="ch-drop-input" OnChange="HandleImageUpload" id="images" accept=".png, .jpg, .jpeg, .webp" />
 </label>
 
 <style>
-    .drop-container {
+    .ch-drop-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -22,21 +22,21 @@
         border: 2px dashed #222245; /* Bordure par défaut */
     }
 
-    .drop-container:hover {
+        .ch-drop-container:hover {
         background: #eee;
     }
 
-    .drop-title {
+    .ch-drop-title {
         font-size: 20px;
         font-weight: bold;
         text-align: center;
     }
 
-    .drop-container.drag-active {
+    .ch-drop-container.drag-active {
         background: #eee;
     }
 
-    .drop-input[type=file] {
+    .ch-drop-input[type=file] {
         width: 100%;
         max-width: 100%;
         color: #222245;
@@ -45,12 +45,12 @@
         border: 1px solid #222245;
     }
 
-    .drop-input[type=file]:focus {
+        .ch-drop-input[type=file]:focus {
         outline: 2px dashed #222245;
         outline-offset: 2px;
     }
 
-    .drop-input[type=file]::file-selector-button {
+        .ch-drop-input[type=file]::file-selector-button {
         margin-right: 8px;
         border: none;
         background: #222245;
@@ -59,30 +59,36 @@
         cursor: pointer;
     }
 
-    .drop-input[type=file]::file-selector-button:hover {
+            .ch-drop-input[type=file]::file-selector-button:hover {
         background: #4747b8;
     }
 
-    .file-selected {
+    .ch-file-selected {
         border: 5px solid #4CAF50; 
     }
 
 </style>
 
-
 @code {
 
+    // Parameter to set the text color for the component.
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    // Event callback to notify the parent component when a file is selected or changed.
     [Parameter]
     public EventCallback<InputFileChangeEventArgs> ValueChanged { get; set; }
 
-    private bool isFileSelected = false; // État pour suivre si un fichier est sélectionné
+    // State variable to track whether a file has been selected.
+    private bool isFileSelected = false; // Boolean to indicate if a file is selected.
 
+    // Method called when a file is uploaded or changed.
     private async Task HandleImageUpload(InputFileChangeEventArgs e)
     {
-        isFileSelected = e.FileCount > 0; // Mettre à jour l'état si un fichier est sélectionné
+        // Update the state to reflect whether a file has been selected.
+        isFileSelected = e.FileCount > 0; // Set to true if one or more files are selected.
+
+        // Invoke the ValueChanged callback to notify the parent component of the file change.
         await ValueChanged.InvokeAsync(e);
     }
 }

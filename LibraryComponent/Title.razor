@@ -1,45 +1,44 @@
-﻿@if (IsCenter)
-{
-    <h1 class="titleh1" style="color: @TextColor;
-        font-size: @($"{FontSize}px");
-text-align: center;">
-        @Text
-    </h1>
-}
-else
-{
-    <h1 class="titleh1" style="color: @TextColor;
-        font-size: @($"{FontSize}px");">
-        @Text
-    </h1>
-}
-
+﻿<h1 class="ch-title" 
+    style="
+    @(IsCenter ? "text-align: center;":"")
+    color: @TextColor;
+    font-size: @($"{FontSize}px");">
+    @Text
+</h1>
 
 <style>
 
-    .titleh1 {
+    .ch-title {
         width: 100%;
     }
 
 </style>
 
 @code {
+    // Parameter to set the font size for the text. Defaults to 24px.
     [Parameter]
     public int FontSize { get; set; } = 24;
 
+    // Parameter to define the text content that will be displayed.
     [Parameter]
     public string Text { get; set; } = default!;
 
+    // Parameter to set the color of the text. Defaults to black (#000).
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    // Parameter to indicate if the text should be centered. Defaults to true.
     [Parameter]
     public bool IsCenter { get; set; } = true;
 
+    // A string to hold the dynamically generated CSS media query for responsive design.
     string Media = "";
 
+    // This method is called whenever the parameters of the component are set or updated.
+    // It dynamically generates CSS for responsive font sizing based on the screen width.
     protected override void OnParametersSet()
     {
+        // Generates a CSS media query that decreases the font size for smaller screens.
         Media = $@"
         <style>
         @media only screen and (max-width: 1200px) {{

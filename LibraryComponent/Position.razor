@@ -1,0 +1,95 @@
+﻿<div class="ch-positon" style="
+        background: @BackgroundColor;
+        @PositionStyle;">
+    @ItemTemplate
+</div>
+
+<style>
+    .ch-positon {
+        padding: 1rem;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        position: relative; /* Allows positioning of child elements */
+    }
+
+    /* Positioning styles */
+    .position-top-left {
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .position-top-center {
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .position-top-right {
+        justify-content: flex-end;
+        align-items: flex-start;
+    }
+
+    .position-center-left {
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .position-center-center {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .position-center-right {
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .position-bottom-left {
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+
+    .position-bottom-center {
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    .position-bottom-right {
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    .position-full {
+    }
+</style>
+
+@code {
+    // Required parameter for item template rendering.
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment ItemTemplate { get; set; } = default!;
+
+    // Background color of the component.
+    [Parameter]
+    public string BackgroundColor { get; set; } = "#fff";
+
+    // New parameter for specifying the position of the content.
+    [Parameter]
+    public string PositionContent { get; set; } = "center-center"; // Default position is center-center.
+
+    // Determines the style class based on the specified position.
+    private string PositionStyle => PositionContent.ToLower() switch
+    {
+        "top-left" => "position-top-left",
+        "top-center" => "position-top-center",
+        "top-right" => "position-top-right",
+        "center-left" => "position-center-left",
+        "center-center" => "position-center-center",
+        "center-right" => "position-center-right",
+        "bottom-left" => "position-bottom-left",
+        "bottom-center" => "position-bottom-center",
+        "bottom-right" => "position-bottom-right",
+        "full" => "position-full", // Full position to take the whole viewport
+        _ => "position-center-center" // Fallback to center-center if an invalid position is provided
+    };
+}

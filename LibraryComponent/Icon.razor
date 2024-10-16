@@ -1,0 +1,37 @@
+﻿<div class="ch-container-icon" @onclick=@OnChangeMode>
+    <img class="ch-img" src=@PathImg width="32" height="32" />
+</div>
+
+<style>
+    .ch-container-icon {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+    }
+
+        .ch-container-icon .ch-img {
+            position: absolute;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+</style>
+
+@code {
+    // Event callback for changing modes (e.g., dark/light mode)
+    [Parameter]
+    public EventCallback ChangeModeEvent { get; set; }
+
+    // Path to the image to be displayed
+    [Parameter]
+    public string PathImg { get; set; } = "";
+
+    // Method to invoke the change mode event
+    void OnChangeMode()
+    {
+        ChangeModeEvent.InvokeAsync(); // Invoke the event callback
+    }
+}

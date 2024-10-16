@@ -45,46 +45,69 @@
 </style>
 
 @code {
+    // A dictionary to store additional attributes that will be applied to the input element.
     private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
 
+    // Parameter that holds the value of the input field.
     [Parameter]
     public string Value { get; set; }
 
+    // Event callback that is triggered when the value of the input changes.
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
+    // Parameter that defines the placeholder text displayed in the input field when it's empty.
     [Parameter]
     public string Placeholder { get; set; } = default!;
 
+    // Parameter to set the text color of the input field. Default color is black.
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    // Parameter to set the background color of the input field. Default color is transparent.
     [Parameter]
     public string BackgroundColor { get; set; } = "Transparent";
 
+    // Parameter to set the border color of the input field. Default color is light grey.
     [Parameter]
     public string BorderColor { get; set; } = "#ccc";
 
+    // Parameter to limit the maximum number of characters that can be entered in the input field.
     [Parameter]
     public int Maxlength { get; set; } = 1000;
 
+    // Parameter to control whether the input field is disabled or not.
     [Parameter]
     public bool Disabled { get; set; }
 
+    // Method called whenever the component's parameters are set or updated.
+    // It populates the additionalAttributes dictionary with values that will be used by the input element.
     protected override void OnParametersSet()
     {
+        // Adds a CSS class to the input element.
         additionalAttributes["class"] = "ch-input";
+
+        // Sets the maximum length of the input field.
         additionalAttributes["maxlength"] = Maxlength;
+
+        // Sets the placeholder text for the input field.
         additionalAttributes["placeholder"] = Placeholder;
+
+        // Determines whether the input field is disabled.
         additionalAttributes["disabled"] = Disabled;
 
+        // Applies inline styles for the text color and background color of the input field.
         additionalAttributes["style"] = $"color: {TextColor}; background-color: {BackgroundColor};";
     }
     
+    // Method called when the value of the input field changes.
+    // It updates the Value property and triggers the ValueChanged event callback.
     private async Task OnValueChanged(string newValue)
     {
+        // Updates the component's Value with the new input.
         Value = newValue;
+
+        // Invokes the ValueChanged event callback to notify the parent component of the change.
         await ValueChanged.InvokeAsync(newValue);
     }
-
 }

@@ -7,7 +7,7 @@
               width: @($"{WidthImage}%");
               height: @($"{HeightImage}%");
               transform: rotate(@($"{Rotate}deg"));
-              object-fit: @ObjectFitOptions.ToString().ToLower();
+              object-fit: @ObjectFit.ToString().ToLower();
               filter : blur(@($"{Blur}px")) 
                        @(Invert ? " invert(100%) " : "") 
                        @(GrayScale ? " grayscale(100%) " : "");
@@ -15,7 +15,7 @@
           
       @if (!string.IsNullOrEmpty(SrcWatermark))
       {
-          var positionStyle = Position switch
+          var positionStyle = PositionWatermark switch
           {
               Position.NorthWest => "top: 0%; left: 0%;",
               Position.NorthEast => "top: 0%; right: 0%;",
@@ -139,10 +139,10 @@
     public string SrcWatermark { get; set; } = string.Empty;
 
     [Parameter]
-    public ObjectFitOptions ObjectFitOptions { get; set; } = ObjectFitOptions.Contain;
+    public ObjectFitOptions ObjectFit { get; set; } = ObjectFitOptions.Contain;
 
     [Parameter]
-    public Position Position { get; set; } = Position.NorthWest;
+    public Position PositionWatermark { get; set; } = Position.NorthWest;
 
     [Parameter]
     public string SrcIconDelete { get; set; } = string.Empty;
@@ -215,5 +215,20 @@
     }}
 }}
     ";
-
+    public enum Position
+    {
+        Center,
+        NorthWest,
+        NorthEast,
+        SouthEast,
+        SouthWest
+    }
+    public enum ObjectFitOptions
+    {
+        Fill,       // L'image est étirée pour remplir le conteneur
+        Contain,    // L'image est redimensionnée pour s'adapter en conservant ses proportions
+        Cover,      // L'image remplit le conteneur, mais peut être recadrée
+        None,       // L'image garde sa taille d'origine
+        ScaleDown   // L'image est réduite seulement si elle est plus grande que le conteneur
+    }
 }

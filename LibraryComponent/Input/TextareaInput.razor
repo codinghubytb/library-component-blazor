@@ -46,56 +46,70 @@
 </style>
 
 @code {
+    // Dictionary to hold additional attributes for the textarea element
     private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
 
+    // The current value of the textarea
     [Parameter]
     public string Value { get; set; }
 
+    // Event callback to notify parent components when the value changes
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
+    // Number of rows for the textarea
     [Parameter]
     public int Row { get; set; } = 10;
 
+    // Number of columns for the textarea
     [Parameter]
     public int Col { get; set; } = 50;
 
+    // Placeholder text for the textarea
     [Parameter]
     public string Placeholder { get; set; } = default!;
 
+    // Text color for the textarea
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    // Background color for the textarea
     [Parameter]
     public string BackgroundColor { get; set; } = "transparent";
 
+    // Font size for the textarea
     [Parameter]
     public string FontSize { get; set; } = "18px";
     
+    // Maximum length of the text that can be entered
     [Parameter]
     public int Maxlength { get; set; } = 1000;
 
+    // Width of the textarea
     [Parameter]
     public string Width { get; set; } = "100%";
 
+    // Indicates whether the textarea is disabled
     [Parameter]
     public bool Disabled { get; set; }
 
+    // Method called when parameters are set or changed
     protected override void OnParametersSet()
     {
-        additionalAttributes["class"] = "ch-textarea";
-        additionalAttributes["rows"] = Row;
-        additionalAttributes["cols"] = Col;
-        additionalAttributes["placeholder"] = Placeholder;
-        additionalAttributes["disabled"] = Disabled;
-        additionalAttributes["maxlength"] = Maxlength;
-        additionalAttributes["style"] = $"color: {TextColor};font-size: {FontSize};background-color:{BackgroundColor}";
+        additionalAttributes["class"] = "ch-textarea"; // CSS class for styling
+        additionalAttributes["rows"] = Row; // Set rows for the textarea
+        additionalAttributes["cols"] = Col; // Set columns for the textarea
+        additionalAttributes["placeholder"] = Placeholder; // Set placeholder text
+        additionalAttributes["disabled"] = Disabled; // Set disabled state
+        additionalAttributes["maxlength"] = Maxlength; // Set max length for input
+        additionalAttributes["style"] = $"color: {TextColor};font-size: {FontSize};background-color:{BackgroundColor}"; // Set inline styles
     }
     
+    // Method to handle value changes and invoke the event callback
     private async Task OnValueChanged(string newValue)
     {
-        Value = newValue;
-        await ValueChanged.InvokeAsync(newValue);
+        Value = newValue; // Update the Value property
+        await ValueChanged.InvokeAsync(newValue); // Notify the parent component of the change
     }
-
 }
+
