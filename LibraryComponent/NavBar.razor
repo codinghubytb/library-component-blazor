@@ -1,4 +1,7 @@
 ﻿<nav class="active ch-nav" style="
+
+        @(IsFixedPosition ? "position: fixed;" : "")
+        z-index: @ZIndex;
         height: @Height;
         background-color: @BackgroundColor;
         @(IsUseBoxShadow ? "box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);" :"")">
@@ -22,10 +25,13 @@
 
 <style>
     .ch-nav {
-        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
         grid-area: header;
         width: 100%;
-        z-index: 100;
+        backface-visibility: hidden;
+        will-change: transform;
     }
 
         .ch-nav .ch-nav-bar {
@@ -63,6 +69,12 @@
     // Height of the navigation bar
     [Parameter]
     public string Height { get; set; } = "70px";
+
+    [Parameter]
+    public int ZIndex { get; set; } = 999;
+
+    [Parameter]
+    public bool IsFixedPosition { get; set; } = true;
 
     // Template for additional items (icons, links, etc.) in the navigation bar
     [Parameter]

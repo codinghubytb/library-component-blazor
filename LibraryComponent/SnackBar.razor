@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Components
+@implements IDisposable
+
+<style>
+    .top-left { top: 10px; left: 10px; }
+    .top-center { top: 10px; left: 50%; transform: translateX(-50%); }
+    .top-right { top: 10px; right: 10px; }
+    .center-left { top: 50%; left: 10px; transform: translateY(-50%); }
+    .center-center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .center-right { top: 50%; right: 10px; transform: translateY(-50%); }
+    .bottom-left { bottom: 10px; left: 10px; }
+    .bottom-center { bottom: 10px; left: 50%; transform: translateX(-50%); }
+    .bottom-right { bottom: 10px; right: 10px; }
+
+    .snackbar {
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px;
+        position: fixed;
+        z-index: 1000;
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+    }
+
+    .hidden {
+        opacity: 0;
+    }
+
+    .success { background-color: green; }
+    .error { background-color: red; }
+    .warning { background-color: orange; }
+    .info { background-color: blue; }
+</style>
+
+<div class="snackbar @StatusClass @Position">
+    @Message
+</div>
+
+@code {
+    [Parameter] public string Message { get; set; } = default!;
+    [Parameter] public string Position { get; set; } = "tl"; // Position par défaut
+    [Parameter] public string Status { get; set; } = "info"; // Statut par défaut
+
+    private string StatusClass => Status switch
+    {
+        "success" => "success",
+        "error" => "error",
+        "warning" => "warning",
+        "info" => "info",
+        _ => "info"
+    };
+
+    protected override void OnParametersSet()
+    {
+        Position = Position switch
+        {
+            "tl" => "top-left",
+            "tc" => "top-center",
+            "tr" => "top-right",
+            "cl" => "center-left",
+            "cc" => "center-center",
+            "cr" => "center-right",
+            "bl" => "bottom-left",
+            "bc" => "bottom-center",
+            "br" => "bottom-right",
+            _ => "top-left"
+        };
+
+    }
+
+
+    public void Dispose()
+    {
+        // Dispose logic if needed
+    }
+}

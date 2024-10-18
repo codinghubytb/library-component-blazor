@@ -1,6 +1,5 @@
-﻿<div class="ch-positon" style="
-        background: @BackgroundColor;
-        @PositionStyle;">
+﻿<div class="ch-positon @PositionStyle" style="
+        background: @BackgroundColor;">
     @ItemTemplate
 </div>
 
@@ -75,21 +74,28 @@
 
     // New parameter for specifying the position of the content.
     [Parameter]
-    public string PositionContent { get; set; } = "center-center"; // Default position is center-center.
+    public string PositionContent { get; set; } = "top-center"; // Default position is center-center.
+
+    protected override void OnParametersSet()
+    {
+        PositionStyle = PositionContent.ToLower() switch
+        {
+            "top-left" => "position-top-left",
+            "top-center" => "position-top-center",
+            "top-right" => "position-top-right",
+            "center-left" => "position-center-left",
+            "center-center" => "position-center-center",
+            "center-right" => "position-center-right",
+            "bottom-left" => "position-bottom-left",
+            "bottom-center" => "position-bottom-center",
+            "bottom-right" => "position-bottom-right",
+            "full" => "position-full", // Full position to take the whole viewport
+            _ => "position-center-center" // Fallback to center-center if an invalid position is provided
+        };
+        base.OnParametersSet(); 
+       
+    }
 
     // Determines the style class based on the specified position.
-    private string PositionStyle => PositionContent.ToLower() switch
-    {
-        "top-left" => "position-top-left",
-        "top-center" => "position-top-center",
-        "top-right" => "position-top-right",
-        "center-left" => "position-center-left",
-        "center-center" => "position-center-center",
-        "center-right" => "position-center-right",
-        "bottom-left" => "position-bottom-left",
-        "bottom-center" => "position-bottom-center",
-        "bottom-right" => "position-bottom-right",
-        "full" => "position-full", // Full position to take the whole viewport
-        _ => "position-center-center" // Fallback to center-center if an invalid position is provided
-    };
+    private string PositionStyle = string.Empty;
 }

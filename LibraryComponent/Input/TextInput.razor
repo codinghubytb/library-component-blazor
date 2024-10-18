@@ -1,8 +1,21 @@
 ﻿<div class="ch-text-input" style="border-color: @BorderColor;">
-    <Microsoft.AspNetCore.Components.Forms.InputText Value="@Value"
-                                                     ValueChanged="@OnValueChanged"
-                                                     ValueExpression="@(() => Value)"
-                                                     AdditionalAttributes="@additionalAttributes" />
+    @if (InputEvent.HasDelegate)
+    {
+        <Microsoft.AspNetCore.Components.Forms.InputText @bind-Value="@Value"
+                                                         @oninput=OnInput
+                                                         class="ch-input"
+                                                         maxlength=@Maxlength
+                                                         placeholder=@Placeholder
+                                                         disabled="@Disabled"
+                                                         style=@($"color: {TextColor}; background-color:{BackgroundColor};")/>
+    }
+    else
+    {
+        <Microsoft.AspNetCore.Components.Forms.InputText Value="@Value"
+                                                         ValueChanged="@OnValueChanged"
+                                                         ValueExpression="@(() => Value)"
+                                                         AdditionalAttributes="@additionalAttributes" />
+    }
 </div>
 
 <style>
@@ -79,6 +92,17 @@
     // Parameter to control whether the input field is disabled or not.
     [Parameter]
     public bool Disabled { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> InputEvent { get; set; }
+
+    private async Task OnInput(ChangeEventArgs e)
+    {
+        if (InputEvent.HasDelegate)
+        {
+            await InputEvent.InvokeAsync(e);
+        }
+    }
 
     // Method called whenever the component's parameters are set or updated.
     // It populates the additionalAttributes dictionary with values that will be used by the input element.
