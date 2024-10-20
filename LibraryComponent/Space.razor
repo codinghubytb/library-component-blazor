@@ -1,1 +1,6 @@
-﻿<div style="height: 1rem;"></div>
+﻿<div style="height: @($"{NumberSpace}rem");"></div>
+
+@code{
+    [Parameter]
+    public int NumberSpace { get; set; } = 1;
+}

@@ -1,4 +1,4 @@
-﻿<div style="display:flex;justify-content:space-between; gap: 10px;">
+﻿<div style="display:flex;justify-content:space-between; align-items:center; gap: 10px; @(IsFlexWrap ? "flex-wrap : wrap": "")">
     @ItemTemplate
 </div>
 
@@ -6,4 +6,7 @@
     [EditorRequired]
     [Parameter]
     public RenderFragment? ItemTemplate { get; set; } = default!;
+
+    [Parameter]
+    public bool IsFlexWrap { get; set; }
 }
