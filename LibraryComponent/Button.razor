@@ -1,17 +1,38 @@
-﻿<button class="ch-btn @(Active ? "active":"")" 
-        style="width:@Width;
+﻿@if (ClickEvent.HasDelegate)
+{
+    <button class="ch-btn @(Active ? "active":"")"
+            style="width:@Width;
                background: @BackgroundColor;
-               color: @TextColor; 
-               display:flex; 
-               justify-content:center; 
-               align-items:center;" 
-        @onclick=OnClicked>
-    @if(!string.IsNullOrEmpty(Icon))
-    {
-        <img src="@Icon" width=@WidthIcon height=@HeightIcon />
-    }
-    @Text
-</button>
+               color: @TextColor;
+               display:flex;
+               justify-content:center;
+               align-items:center;"
+            @onclick=OnClicked
+            @onclick:stopPropagation="false">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <img style="background-color: @BackgroundColorImage;" src="@Icon" width=@WidthIcon height=@HeightIcon />
+        }
+        @Text
+    </button>
+}
+else
+{
+    <button class="ch-btn @(Active ? "active":"")"
+            style="width:@Width;
+               background: @BackgroundColor;
+               color: @TextColor;
+               display:flex;
+               justify-content:center;
+               align-items:center;"
+            @onclick:stopPropagation="false">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <img src="@Icon" width=@WidthIcon height=@HeightIcon />
+        }
+        @Text
+    </button>
+}
 
 <style>
     .ch-btn {
@@ -24,7 +45,7 @@
         border-radius: 5px;
         display: flex;
         justify-content: center;
-         align-items: center;
+        align-items: center;
     }
 
         .ch-btn.active,
@@ -43,10 +64,10 @@
 
     [Parameter]
     public string Icon { get; set; }
-    
+
     [Parameter]
     public int HeightIcon { get; set; } = 24;
-    
+
     [Parameter]
     public int WidthIcon { get; set; } = 24;
 
@@ -61,6 +82,9 @@
     /// </summary>
     [Parameter]
     public string BackgroundColor { get; set; } = "#fff";
+
+    [Parameter]
+    public string BackgroundColorImage { get; set; } = "#fff";
 
     /// <summary>
     /// The text color inside the button. Default is black (#000).

@@ -1,5 +1,5 @@
 ﻿<div class="ch-container-icon" @onclick=@OnChangeMode>
-    <img class="ch-img" src=@PathImg width="32" height="32" />
+    <img class="ch-img" style="background-color:@BackgroundColor;" src=@PathImg width="32" height="32" />
 </div>
 
 <style>
@@ -23,7 +23,10 @@
 @code {
     // Event callback for changing modes (e.g., dark/light mode)
     [Parameter]
-    public EventCallback ChangeModeEvent { get; set; }
+    public EventCallback ChangeEvent { get; set; }
+    
+    [Parameter]
+    public string BackgroundColor { get; set; } = "transparent";
 
     // Path to the image to be displayed
     [Parameter]
@@ -32,6 +35,8 @@
     // Method to invoke the change mode event
     void OnChangeMode()
     {
-        ChangeModeEvent.InvokeAsync(); // Invoke the event callback
+        ChangeEvent.InvokeAsync(); // Invoke the event callback
     }
+
+
 }
