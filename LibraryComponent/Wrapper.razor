@@ -1,6 +1,7 @@
 ﻿<div class="ch-wrapper" style="
         background: @BackgroundColor;
         max-width: @($"{MaxWidth}px");
+        padding: @($"{PaddingInPx}px");
         @(IsUseBoxShadow ? "box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08), 0 12px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.03);" : "")">
     @ItemTemplate
 </div>
@@ -8,7 +9,6 @@
 <style>
     .ch-wrapper {
         width: 100%;
-        padding: 30px;
         border-radius: 7px;
     }
 
@@ -17,6 +17,9 @@
 @code {
     [Parameter]
     public int MaxWidth { get; set; } = 690;
+
+    [Parameter]
+    public int PaddingInPx { get; set; } = 30;
 
     [Parameter]
     public bool IsUseBoxShadow {get;set;} = true;

@@ -4,7 +4,7 @@
     <span class="ch-drop-title" style="color:@TextColor">Drop files here</span>
     or
     
-    <InputFile class="ch-drop-input" OnChange="HandleImageUpload" id="images" accept=".png, .jpg, .jpeg, .webp" />
+    <InputFile class="ch-drop-input" OnChange="HandleImageUpload" id="images" accept=@AcceptedFileTypes />
 </label>
 
 <style>
@@ -70,6 +70,8 @@
 </style>
 
 @code {
+    [Parameter]
+    public string AcceptedFileTypes { get; set; } = "image/*";
 
     // Parameter to set the text color for the component.
     [Parameter]

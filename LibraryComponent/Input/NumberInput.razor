@@ -2,10 +2,16 @@
 
 <div class="ch-number-input">
     <Microsoft.AspNetCore.Components.Forms.InputNumber Value="@Value"
-                                                        TValue="TValue"
-                                                        ValueChanged="@OnValueChanged"
-                                                        ValueExpression="@(() => Value)"
-                                                        AdditionalAttributes="@additionalAttributes" />
+                                                       @oninput="@(UpdateOnInput ? HandleInput : null)"
+                                                       ValueChanged="@(UpdateOnInput ? null : OnValueChanged)"
+                                                       ValueExpression="() => Value"
+                                                       class="ch-input"
+                                                       min=@Min
+                                                       max=@Max
+                                                       placeholder=@Placeholder
+                                                       disabled=@Disabled
+                                                       style=@($"color:{TextColor};")
+                                                        TValue="TValue"/>
 </div>
 
 <style>
@@ -53,6 +59,9 @@
     // Generic parameter to hold the value of the input field.
     [Parameter]
     public TValue Value { get; set; }
+    
+    [Parameter]
+    public bool UpdateOnInput { get; set; } = true;
 
     // Event callback that triggers when the input value changes, using the generic type TValue.
     [Parameter]
@@ -110,6 +119,39 @@
 
         // Invokes the ValueChanged event callback to notify the parent component of the change.
         await ValueChanged.InvokeAsync(newValue);
+    }
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        if (TryParseValue(e.Value, out TValue newValue))
+        {
+            Value = newValue;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        if (TryParseValue(e.Value, out TValue newValue))
+        {
+            Value = newValue;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    // Méthode générique pour essayer de convertir la valeur en TValue
+    private bool TryParseValue(object? value, out TValue result)
+    {
+        try
+        {
+            result = (TValue)Convert.ChangeType(value, typeof(TValue));
+            return true;
+        }
+        catch
+        {
+            result = default!;
+            return false;
+        }
     }
 }
 
