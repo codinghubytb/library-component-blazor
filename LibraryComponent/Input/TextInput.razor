@@ -94,6 +94,9 @@
     public bool Disabled { get; set; }
 
     [Parameter]
+    public bool IsPassword { get; set; }
+
+    [Parameter]
     public EventCallback<ChangeEventArgs> InputEvent { get; set; }
 
     private async Task OnInput(ChangeEventArgs e)
@@ -120,7 +123,12 @@
         // Determines whether the input field is disabled.
         additionalAttributes["disabled"] = Disabled;
 
-        // Applies inline styles for the text color and background color of the input field.
+        if (IsPassword)
+        {
+            additionalAttributes["type"] = "password";
+        }
+
+            // Applies inline styles for the text color and background color of the input field.
         additionalAttributes["style"] = $"color: {TextColor}; background-color: {BackgroundColor};";
     }
     

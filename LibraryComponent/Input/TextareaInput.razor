@@ -56,6 +56,10 @@
     // Event callback to notify parent components when the value changes
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
+    
+    // Number of rows for the textarea
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
 
     // Number of rows for the textarea
     [Parameter]
@@ -96,6 +100,9 @@
     // Method called when parameters are set or changed
     protected override void OnParametersSet()
     {
+        if (!string.IsNullOrEmpty(Id)) 
+            additionalAttributes["id"] = Id;
+
         additionalAttributes["class"] = "ch-textarea"; // CSS class for styling
         additionalAttributes["rows"] = Row; // Set rows for the textarea
         additionalAttributes["cols"] = Col; // Set columns for the textarea

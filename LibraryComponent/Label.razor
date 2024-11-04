@@ -1,4 +1,4 @@
-﻿<label style="color: @TextColor;">
+﻿<label @onclick=@OnClicked style="color: @TextColor;">
     @Text
 </label>
 
@@ -9,4 +9,16 @@
 
     [Parameter]
     public string TextColor { get; set; } = "#000";
+
+    /// <summary>
+    /// The event triggered when the button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback ClickEvent { get; set; }
+
+
+    void OnClicked()
+    {
+        ClickEvent.InvokeAsync();
+    }
 }
