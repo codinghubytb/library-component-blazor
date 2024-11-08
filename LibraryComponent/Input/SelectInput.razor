@@ -23,7 +23,6 @@
             border: none;
             outline: none;
             resize: none;
-            font-size: 18px;
             padding: 10px 15px;
             border-radius: 5px;
         }
@@ -46,6 +45,9 @@
     public string TextColor { get; set; } = "#000"; // Text color for the select input.
 
     [Parameter]
+    public int FontSize { get; set; } = 18; // Text color for the select input.
+
+    [Parameter]
     public string BackgroundColor { get; set; } = "Transparent"; // Background color for the select input.
 
     private int _width = 100; // Default width percentage for the select container.
@@ -63,7 +65,7 @@
     protected override void OnParametersSet() // Lifecycle method to set additional attributes.
     {
         additionalAttributes["class"] = "ch-select"; // Sets the CSS class for the select input.
-        additionalAttributes["style"] = $"color: {TextColor}; background: {BackgroundColor};"; // Sets inline styles.
+        additionalAttributes["style"] = $"color: {TextColor}; background: {BackgroundColor}; font-size: {FontSize}px;"; // Sets inline styles.
     }
 
     private async Task OnValueChanged(TValue newValue) // Handles value changes in the select input.

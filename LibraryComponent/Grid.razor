@@ -13,7 +13,7 @@
 }
 else
 {
-    <div class="cards">
+    <div class="cards" style="gap:@($"{Gap}px")">
         @foreach (TItem item in Items)
         {
             @ItemTemplate(item)
@@ -25,7 +25,6 @@ else
     .cards {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
-        gap: 40px;
         padding: 0 0px;
     }
 </style>
@@ -49,9 +48,27 @@ else
     [Parameter]
     public RenderFragment? EmptyResults { get; set; }
 
-    // Maximum number of columns to display in the grid.
+    
     [Parameter]
-    public int MaxColumns { get; set; } = 1;
+    public int ColumnsXXL { get; set; } = 1;
+
+    [Parameter]
+    public int ColumnsXL { get; set; } = 1;
+
+    [Parameter]
+    public int ColumnsLG { get; set; } = 1;
+
+    [Parameter]
+    public int ColumnsMD { get; set; } = 1;
+
+    [Parameter]
+    public int ColumnsSM { get; set; } = 1;
+    
+    [Parameter]
+    public int ColumnsXSM { get; set; } = 1;
+    
+    [Parameter]
+    public int Gap { get; set; } = 40;
 
     // Icon to display when no results are found.
     [Parameter]
@@ -59,21 +76,38 @@ else
 
     // Dynamic CSS style for managing the width of cards based on screen size.
     public string MediaWidthStyle => $@"
-@media (min-width: 600px) {{
+    
+@media (max-width: 576px) {{
     .cards {{
-        grid-template-columns: repeat(1, 1fr); // One column for small screens.
+        grid-template-columns: repeat({ColumnsXSM}, 1fr); // One column for small screens.
     }}
 }}
 
-@media (min-width: 912px) {{
+@media (min-width: 576px) {{
     .cards {{
-        grid-template-columns: repeat(1, 1fr); // One column for medium screens.
+        grid-template-columns: repeat({ColumnsSM}, 1fr); // One column for small screens.
     }}
 }}
 
+@media (min-width: 768px) {{
+    .cards {{
+        grid-template-columns: repeat({ColumnsMD}, 1fr); // One column for medium screens.
+    }}
+}}
+
+@media (min-width: 992px) {{
+    .cards {{
+        grid-template-columns: repeat({ColumnsLG}, 1fr); // Number of columns defined by MaxColumns for large screens.
+    }}
+}}
 @media (min-width: 1200px) {{
     .cards {{
-        grid-template-columns: repeat({MaxColumns}, 1fr); // Number of columns defined by MaxColumns for large screens.
+        grid-template-columns: repeat({ColumnsXL}, 1fr); // Number of columns defined by MaxColumns for large screens.
+    }}
+}}
+@media (min-width: 1400px) {{
+    .cards {{
+        grid-template-columns: repeat({ColumnsXXL}, 1fr); // Number of columns defined by MaxColumns for large screens.
     }}
 }}";
 }

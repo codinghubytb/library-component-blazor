@@ -1,0 +1,31 @@
+﻿<span class="tag" style="
+        background-color: @BackgroundColor;
+        color: @TextColor;
+        @(string.IsNullOrEmpty(BorderColor) ? "" : $"border: 1px solid {BorderColor};")">@Element</span>
+
+<style>
+    .tag {
+        display: inline-block;
+        font-weight: 600;
+        font-size: 0.875rem;
+        padding: 0.5em 0.75em;
+        line-height: 1;
+        border-radius: 6px;
+    }
+</style>
+
+@code 
+{
+    [Parameter]
+    public RenderFragment? Element { get; set; }
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "#f1eeff";
+
+    [Parameter]
+    public string TextColor { get; set; } = "#6558d3";
+
+    [Parameter]
+    public string BorderColor { get; set; } = string.Empty;
+
+}

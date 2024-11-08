@@ -1,0 +1,27 @@
+﻿<div class="ch-wrapper" style="background-color: @BackgroundColor;
+        padding: @($"{Padding}px");">
+    @ItemTemplate
+</div>
+
+<style>
+    .ch-wrapper {
+        position: relative;
+        border-radius: 5px;
+        height: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.4s;
+    }
+
+</style>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment ItemTemplate { get; set; } = default!;
+
+    [Parameter]
+    public string BackgroundColor { get; set; } = "#fff";
+
+    [Parameter]
+    public int Padding { get; set; } = 20;
+}

@@ -2,8 +2,6 @@
 <style>
     .modal-overlay {
         position: fixed;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
@@ -17,7 +15,9 @@
 
 @if (IsVisible)
 {
-    <div class="modal-overlay">
+    <div class="modal-overlay" style="
+        top: @($"{Top}%");
+        left: @($"{Left}%");">
         @ChildContent
     </div>
 }
@@ -28,5 +28,12 @@
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public int Top { get; set; }
+
+    [Parameter]
+    public int Left { get; set; }
+
 }
 

@@ -1,12 +1,16 @@
 ﻿
-<div class="checkbox-input" style="">
+<div class="checkbox-input" style="
+        display: flex;
+        align-items:center;" @onclick:stopPropagation="@StopPropagation">
     <Microsoft.AspNetCore.Components.Forms.InputCheckbox    Value="@Value"
                                                             ValueChanged="@OnValueChanged"
                                                             ValueExpression="@(() => Value)"
                                                             AdditionalAttributes="@additionalAttributes" />
 
+    @if(!string.IsNullOrEmpty(Label)){
     <label class="ch-checkbox-label" style="
         color: @TextColor;" for="@Id">@Label</label>
+    }
 </div>
 
 <style>
@@ -14,11 +18,11 @@
     .ch-checkbox-input {
         height: 16px;
         width: 16px;
-        cursor: pointer;
+        cursor: default;
     }
 
     .ch-checkbox-label {
-        cursor: pointer;
+        cursor: default;
         padding-left: 0.63rem;
     }
 </style>
@@ -31,6 +35,9 @@
     // Parameter to bind the value of the checkbox (checked or unchecked).
     [Parameter]
     public bool Value { get; set; }
+
+    [Parameter]
+    public bool StopPropagation { get; set; }
 
     // Event callback that triggers when the checkbox value changes.
     [Parameter]

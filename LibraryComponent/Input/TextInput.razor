@@ -7,7 +7,7 @@
                                                          maxlength=@Maxlength
                                                          placeholder=@Placeholder
                                                          disabled="@Disabled"
-                                                         style=@($"color: {TextColor}; background-color:{BackgroundColor};")/>
+                                                         style=@($"color: {TextColor}; background-color:{BackgroundColor};font-size:{FontSize}px;")/>
     }
     else
     {
@@ -33,7 +33,6 @@
         outline: none;
         resize: none;
         background: none;
-        font-size: 18px;
         padding: 10px 15px;
         border-radius: 5px;
     }
@@ -76,6 +75,9 @@
     // Parameter to set the text color of the input field. Default color is black.
     [Parameter]
     public string TextColor { get; set; } = "#000";
+    
+    [Parameter]
+    public int FontSize { get; set; } = 18;
 
     // Parameter to set the background color of the input field. Default color is transparent.
     [Parameter]
@@ -129,7 +131,7 @@
         }
 
             // Applies inline styles for the text color and background color of the input field.
-        additionalAttributes["style"] = $"color: {TextColor}; background-color: {BackgroundColor};";
+        additionalAttributes["style"] = $"color: {TextColor}; background-color: {BackgroundColor}; font-size:{FontSize}px;";
     }
     
     // Method called when the value of the input field changes.

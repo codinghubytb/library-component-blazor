@@ -1,10 +1,12 @@
-﻿<h1 class="ch-title" 
-    style="
+﻿<p class="ch-title"
+   style="
     @(IsCenter ? "text-align: center;":"")
     color: @TextColor;
+    @(IsBold ? " font-weight: bold;" : " font-weight: initial;")
+@(IsLineThrough ? "text-decoration: line-through;": "")
     font-size: @($"{FontSize}px");">
     @Text
-</h1>
+</p>
 
 <style>
 
@@ -27,9 +29,15 @@
     [Parameter]
     public string TextColor { get; set; } = "#000";
 
+    [Parameter]
+    public bool IsLineThrough { get; set; }
+
     // Parameter to indicate if the text should be centered. Defaults to true.
     [Parameter]
     public bool IsCenter { get; set; } = true;
+
+    [Parameter]
+    public bool IsBold { get; set; } = true;
 
     // A string to hold the dynamically generated CSS media query for responsive design.
     string Media = "";
